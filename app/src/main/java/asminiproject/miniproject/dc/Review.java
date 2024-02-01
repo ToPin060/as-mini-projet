@@ -28,4 +28,40 @@ public class Review {
         review = review_;
         picturePaths = picturePaths_;
     }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public List<Bitmap> getPicturePaths() {
+        return picturePaths;
+    }
+
+    public void setPicturePaths(List<Bitmap> picturePaths) {
+        this.picturePaths = picturePaths;
+    }
 }

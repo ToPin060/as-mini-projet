@@ -11,11 +11,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import asminiproject.miniproject.R;
+import asminiproject.miniproject.dc.Pair;
 import asminiproject.miniproject.dc.Restaurant;
-import asminiproject.miniproject.services.RestaurantsService;
+import asminiproject.miniproject.dc.Schedule;
+import asminiproject.miniproject.dc.TimeSlot;
+import asminiproject.miniproject.services.PairService;
+import asminiproject.miniproject.services.RestaurantService;
+import asminiproject.miniproject.services.ScheduleService;
+import asminiproject.miniproject.services.TimeSlotService;
 
 public class RestaurantProfileActivity extends AppCompatActivity {
     private final int[] dayIds = new int[]{
@@ -30,13 +34,14 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     private Restaurant _restaurant;
 
     private Context _context;
-    private RestaurantsService _restaurantsService;
+    private RestaurantService _restaurantService;
 
     private TextView _nameView, _overallRatingView, _ratingNumberView, _addressView, _phoneView;
     private RatingBar _ratingBarView;
     private Button _backButtonView, _bookButton, _reviewButton;
 
     private ViewGroup _scheduleInclude;
+    private Schedule schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +54,10 @@ public class RestaurantProfileActivity extends AppCompatActivity {
 
     private void initializeActivity() {
         _context = getApplicationContext();
-        _restaurantsService = RestaurantsService.getInstance();
+        _restaurantService = RestaurantService.getInstance();
 
-        _restaurant = _restaurantsService
-                .getRestaurantById(getIntent().getIntExtra("restaurantId", 0));
+        _restaurant = _restaurantService
+                .getRestaurantById(getIntent().getStringExtra("restaurantId"));
 
         setContentView(R.layout.activity_restaurant_profile);
 
@@ -83,29 +88,53 @@ public class RestaurantProfileActivity extends AppCompatActivity {
             ViewGroup timeslot1 =  _scheduleInclude.findViewById(dayIds[i]).findViewById(R.id.timeslot1);
             ViewGroup timeslot2 =  _scheduleInclude.findViewById(dayIds[i]).findViewById(R.id.timeslot2);
 
-            ((TextView) timeslot1.findViewById(R.id.startH_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.startH));
-            ((TextView) timeslot1.findViewById(R.id.startM_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.startM));
-            ((TextView) timeslot1.findViewById(R.id.endH_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.endH));
-            ((TextView) timeslot1.findViewById(R.id.endM_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.endM));
+            schedule = ScheduleService.getInstance().getScheduleById(_restaurant.schedule.getId());
 
-            if (_restaurant.schedule.get(i).second != null) {
+            if (schedule.pairs.get(i) == null) {
+                hideTimeslots(true, timeslot1, timeslot2);
+                break;
+            }
+
+            Pair day = PairService.getInstance().getPairById(schedule.pairs.get(i).getId());
+
+            if (day == null) {
+                hideTimeslots(true, timeslot1, timeslot2);
+                break;
+            }
+
+            if (day.first != null) {
+                TimeSlot timeslot = TimeSlotService.getInstance().getTimeslotById(day.first.getId());
+                ((TextView) timeslot1.findViewById(R.id.startH_text))
+                        .setText(computeStringFromInt(timeslot.startH));
+                ((TextView) timeslot1.findViewById(R.id.startM_text))
+                        .setText(computeStringFromInt(timeslot.startM));
+                ((TextView) timeslot1.findViewById(R.id.endH_text))
+                        .setText(computeStringFromInt(timeslot.endH));
+                ((TextView) timeslot1.findViewById(R.id.endM_text))
+                        .setText(computeStringFromInt(timeslot.endM));
+            } else {
+                timeslot1.setVisibility(View.INVISIBLE);
+            }
+            if (day.second != null) {
+                TimeSlot timeslot = TimeSlotService.getInstance().getTimeslotById(day.first.getId());
                 ((TextView) timeslot2.findViewById(R.id.startH_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.startH));
+                        .setText(computeStringFromInt(timeslot.startH));
                 ((TextView) timeslot2.findViewById(R.id.startM_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.startM));
+                        .setText(computeStringFromInt(timeslot.startM));
                 ((TextView) timeslot2.findViewById(R.id.endH_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.endH));
+                        .setText(computeStringFromInt(timeslot.endH));
                 ((TextView) timeslot2.findViewById(R.id.endM_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.endM));
+                        .setText(computeStringFromInt(timeslot.endM));
             } else {
                 timeslot2.setVisibility(View.INVISIBLE);
             }
         }
     }
+    private void hideTimeslots(boolean enable, ViewGroup timeslot1, ViewGroup timeslot2) {
+        timeslot1.setVisibility(View.INVISIBLE);
+        timeslot2.setVisibility(View.INVISIBLE);
+    }
+
     private void setupButtonsEvent() {
         _backButtonView.setOnClickListener(view -> onBackButtonClick());
         _bookButton.setOnClickListener(view -> onBookButtonClick());
@@ -117,13 +146,13 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     }
     public void onReviewButtonClick() {
         Intent restaurantReviewActivity = new Intent(_context, RestaurantReviewActivity.class);
-        restaurantReviewActivity.putExtra("restaurantId", _restaurant.id);
+        restaurantReviewActivity.putExtra("restaurantId", _restaurant.documentId);
         restaurantReviewActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(restaurantReviewActivity);
     }
     public void onBookButtonClick() {
         Intent reservationActivity = new Intent(_context, ReservationActivity.class);
-        reservationActivity.putExtra("restaurantId", _restaurant.id);
+        reservationActivity.putExtra("restaurantId", _restaurant.documentId);
         reservationActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(reservationActivity);
     }

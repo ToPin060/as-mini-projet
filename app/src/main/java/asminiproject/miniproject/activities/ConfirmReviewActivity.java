@@ -15,11 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import asminiproject.miniproject.R;
-import asminiproject.miniproject.controllers.DataBaseController;
 import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.dc.Review;
-import asminiproject.miniproject.services.RestaurantsService;
-import asminiproject.miniproject.services.ReviewsService;
+import asminiproject.miniproject.services.RestaurantService;
+import asminiproject.miniproject.services.ReviewService;
 
 public class ConfirmReviewActivity extends AppCompatActivity {
     private Restaurant _restaurant;
@@ -27,7 +26,7 @@ public class ConfirmReviewActivity extends AppCompatActivity {
     private String _review;
     private List<Bitmap> _pictures;
 
-    private ReviewsService _reviewsService;
+    private ReviewService _reviewsService;
 
     private ViewGroup _reviewCardGroup;
     private ImageView _pictureView;
@@ -45,10 +44,10 @@ public class ConfirmReviewActivity extends AppCompatActivity {
     }
 
     public void initializeActivity(){
-        _reviewsService = ReviewsService.getInstance();
+        _reviewsService = ReviewService.getInstance();
 
-        final int restaurantId = getIntent().getIntExtra("restaurantId", 11);
-        _restaurant = RestaurantsService.getInstance().getRestaurantById(restaurantId);
+        final String restaurantId = getIntent().getStringExtra("restaurantId");
+        _restaurant = RestaurantService.getInstance().getRestaurantById(restaurantId);
         _rating = getIntent().getFloatExtra("ratingBar", 0.0f);
         _review = getIntent().getStringExtra("ratingText");
         _pictures = getIntent().getParcelableArrayListExtra("capturedImages");
