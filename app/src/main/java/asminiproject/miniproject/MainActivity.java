@@ -2,6 +2,9 @@ package asminiproject.miniproject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -10,6 +13,8 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 
 public class MainActivity extends Activity {
     private MapView _mapView = null;
@@ -23,21 +28,7 @@ public class MainActivity extends Activity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         setContentView(R.layout.activity_main);
 
-        _mapView = (MapView) findViewById(R.id.map);
-        _mapView.setTileSource(TileSourceFactory.MAPNIK);
-
-        Marker myLocationMarker = new Marker(_mapView);
-        myLocationMarker.setTitle("Your location");
-        myLocationMarker.setPosition(_myLocation);
-        _mapView.getOverlays().add(myLocationMarker);
-
-        // Obtenez le contrôleur de carte et configurez le centrage et le niveau de zoom initiaux
-        _mapView.getController().setZoom(15.0);
-        _mapView.getController().setCenter(_myLocation); // Coordonnées pour Paris par exemple
-
-        //CompassOverlay _compassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), _mapView);
-        //_compassOverlay.enableCompass();
-        //_mapView.getOverlays().add(_compassOverlay);
+        setupMapEnvironment();
     }
 
     @Override
@@ -56,5 +47,25 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         _mapView.onDetach();
+    }
+
+    private void setupMapEnvironment() {
+        Context ctx = getApplicationContext();
+
+        _mapView = (MapView) findViewById(R.id.map);
+        _mapView.setTileSource(TileSourceFactory.MAPNIK);
+
+        // Location marker
+        Marker myLocationMarker = new Marker(_mapView);
+        myLocationMarker.setTitle("Your location");
+        myLocationMarker.setPosition(_myLocation);
+        _mapView.getOverlays().add(myLocationMarker);
+
+        _mapView.getController().setZoom(18.0);
+        _mapView.getController().setCenter(_myLocation);
+
+        CompassOverlay _compassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), _mapView);
+        _compassOverlay.enableCompass();
+        _mapView.getOverlays().add(_compassOverlay);
     }
 }
