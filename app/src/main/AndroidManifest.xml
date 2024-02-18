@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -28,6 +31,8 @@
         <meta-data
             android:name="org.osmdroid.tileprovider.tilesource.ITileSource"
             android:value="Mapnik"/>
+        <activity android:name=".RatingRestaurantActivity" />
+        <activity android:name=".ConfirmRating" />
     </application>
 
 </manifest>
