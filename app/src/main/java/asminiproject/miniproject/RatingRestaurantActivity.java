@@ -27,6 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class RatingRestaurantActivity extends AppCompatActivity {
@@ -37,6 +39,7 @@ public class RatingRestaurantActivity extends AppCompatActivity {
     private TextInputEditText ratingInput;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private ActivityResultLauncher<Intent> takepicturelauncher;
+    private ArrayList<Bitmap> capturedImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +47,28 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rating_restaurant_activity);
 
+        String ratingComment = getIntent().getStringExtra("ratingComment");
+        float ratingBarValue = getIntent().getFloatExtra("ratingBarValue", 0.0f);
+        capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
+
         restaurantPreview = findViewById(R.id.restaurant_preview);
         ratingBar = findViewById(R.id.ratingBar);
         submitButton = findViewById(R.id.submitButton);
         ratingInput = findViewById(R.id.rating_text);
         FloatingActionButton buttonOpenCamera = findViewById(R.id.openCamera);
+
+        if(ratingComment != null){
+            ratingInput.setText(ratingComment);
+        }
+        if(ratingBarValue != 0.0f){
+            ratingBar.setRating(ratingBarValue);
+        }
+        if(capturedImages == null){
+            capturedImages = new ArrayList<>();
+        }
+        else {
+            updateRestaurantPreview();
+        }
 
         takepicturelauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -57,7 +77,8 @@ public class RatingRestaurantActivity extends AppCompatActivity {
                         Bundle extras = result.getData().getExtras();
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         if (imageBitmap != null) {
-                            restaurantPreview.setImageBitmap(imageBitmap);
+                            capturedImages.add(imageBitmap);
+                            updateRestaurantPreview();
                         } else {
                             Toast.makeText(this, "Erreur lors de la capture de la photo", Toast.LENGTH_SHORT).show();
                         }
@@ -109,21 +130,28 @@ public class RatingRestaurantActivity extends AppCompatActivity {
 
         if (ratingScore > 0) {
 
-            ratingBar.setRating(0);
             ratingInput.setActivated(false);
 
             Intent intent = new Intent(RatingRestaurantActivity.this, ConfirmRating.class);
             intent.putExtra("ratingBar", ratingScore);
             intent.putExtra("ratingText", ratingText);
+            intent.putParcelableArrayListExtra("capturedImages", capturedImages);
             startActivity(intent);
+            finish();
 
         } else {
-            Toast.makeText(this, "Erreur, tape une note la con de ta mère",
+            Toast.makeText(this, "Erreur, la note ne peut pas être à 0",
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateRestaurantPreview() {
+        if(!capturedImages.isEmpty()){
+            Bitmap lastImage = capturedImages.get(capturedImages.size() - 1);
+            restaurantPreview.setImageBitmap(lastImage);
         }
     }
 }
 
 //TODO
 // 3 - Sur l'endroit du placement de l'image, bouton pour entrer dans l'appareil photo, prender photo + preview
-// 4 - Si jamais sur la page de confirmation on fait un retour, il faut pourvoir recupérer toutes les infos
