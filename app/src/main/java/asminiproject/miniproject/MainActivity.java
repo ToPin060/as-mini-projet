@@ -1,71 +1,77 @@
 package asminiproject.miniproject;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-public class MainActivity extends Activity {
-    private MapView _mapView = null;
-    private GeoPoint _myLocation = new GeoPoint(43.6047, 1.4442);
+import org.osmdroid.config.Configuration;
+import org.osmdroid.views.MapView;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    private Context _context = null;
+    private Map map = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Context ctx = getApplicationContext();
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        requestPermissionsIfNecessary(new String[]{
+                // Not used actually
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                // WRITE_EXTERNAL_STORAGE is required in order to show the map
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        });
+
+        _context = getApplicationContext();
+        Configuration.getInstance().load(_context, PreferenceManager.getDefaultSharedPreferences(_context));
         setContentView(R.layout.activity_main);
 
-        setupMapEnvironment();
+        map = new Map(_context, (MapView) findViewById(R.id.map));
     }
 
+    private void requestPermissionsIfNecessary(String[] permissions) {
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                permissionsToRequest.add(permission);
+            }
+        }
+        if (permissionsToRequest.size() > 0) {
+            ActivityCompat.requestPermissions(
+                this,
+                permissionsToRequest.toArray(new String[0]),
+                REQUEST_PERMISSIONS_REQUEST_CODE
+            );
+        }
+    }
+    
+    /**
+     * App life cycle override
+     */
     @Override
     protected void onPause() {
         super.onPause();
-        _mapView.onPause();
+        map.getMapView().onPause();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        _mapView.onResume();
+        map.getMapView().onResume();
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        _mapView.onDetach();
-    }
-
-    private void setupMapEnvironment() {
-        Context ctx = getApplicationContext();
-
-        _mapView = (MapView) findViewById(R.id.map);
-        _mapView.setTileSource(TileSourceFactory.MAPNIK);
-
-        // Location marker
-        Marker myLocationMarker = new Marker(_mapView);
-        myLocationMarker.setTitle("Your location");
-        myLocationMarker.setPosition(_myLocation);
-        _mapView.getOverlays().add(myLocationMarker);
-
-        _mapView.getController().setZoom(18.0);
-        _mapView.getController().setCenter(_myLocation);
-
-        CompassOverlay _compassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), _mapView);
-        _compassOverlay.enableCompass();
-        _mapView.getOverlays().add(_compassOverlay);
+        map.getMapView().onDetach();
     }
 }
