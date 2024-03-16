@@ -21,7 +21,7 @@ public class ConfirmRatingActivity extends AppCompatActivity {
     private Button returnButton;
     private RatingBar confirmRatingBar;
     private TextView ratingTextValue;
-    private LinearLayout container;
+    private ImageView card_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +37,14 @@ public class ConfirmRatingActivity extends AppCompatActivity {
         ratingTextValue = findViewById(R.id.ratingTextValue);
         sendButton = findViewById(R.id.sendButton);
         returnButton = findViewById(R.id.returnButton);
-        container = findViewById(R.id.container);
+        card_image = findViewById(R.id.card_image);
 
         ratingTextValue.setText(ratingComment);
         confirmRatingBar.setRating(ratingBarValue);
         confirmRatingBar.setIsIndicator(true);
 
-
-        if(capturedImages != null) {
-            for (Bitmap image : capturedImages){
-                addImagetoLayout(image);
-            }
+        if(capturedImages != null){
+            card_image.setImageBitmap(capturedImages.get(0));
         }
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -64,17 +61,6 @@ public class ConfirmRatingActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void addImagetoLayout(Bitmap image) {
-        ImageView imageView = new ImageView(this);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        imageView.setImageBitmap(image);
-
-        container.addView(imageView);
     }
 
     protected void onSend(){

@@ -43,5 +43,7 @@ dependencies {
     implementation("com.github.zomato:androidphotofilters:1.0.2") {
         exclude("com.android.support")
     }
+    implementation("androidx.compose.material3:material3:1.0.1")
+    implementation("androidx.compose.material3:material3-window-size-class:1.0.1")
 
 }

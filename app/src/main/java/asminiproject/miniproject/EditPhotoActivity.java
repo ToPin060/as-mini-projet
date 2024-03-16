@@ -27,6 +27,7 @@ import com.zomato.photofilters.SampleFilters;
 import com.zomato.photofilters.imageprocessors.Filter;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import asminiproject.miniproject.thumbnails.ThumbnailCallback;
@@ -43,6 +44,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     Bitmap initImage;
     Bitmap toEditImage;
     Activity activity;
+    ArrayList<Bitmap> capturedImages;
 
     ImageView imageView;
     Button cancelButton;
@@ -69,6 +71,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         ratingBarValue = getIntent().getFloatExtra("ratingBar", 0.0f);
         ratingTextValue = getIntent().getStringExtra("ratingText");
         byte[] byteArray = getIntent().getByteArrayExtra("image");
+        capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
 
         initImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         toEditImage = initImage;
@@ -152,6 +155,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         intent.putExtra("image", byteArray);
         intent.putExtra("ratingBarValue", ratingBarValue);
         intent.putExtra("ratingComment", ratingTextValue);
+        intent.putParcelableArrayListExtra("capturedImages", capturedImages);
 
         startActivity(intent);
 

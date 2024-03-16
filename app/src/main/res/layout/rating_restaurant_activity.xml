@@ -8,102 +8,138 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:context=".AvisRestaurantActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteX="0dp">
 
-        <!-- RatingBar pour sélectionner la note -->
-
-        <!-- Bouton pour soumettre l'avis -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="238dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="47dp"
-                android:layout_marginBottom="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/submitButton"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/submitButton"
-                android:layout_width="wrap_content"
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/envoyer"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ratingBar" />
+                android:background="@color/main_color">
 
-            <ImageView
-                android:id="@+id/restaurant_preview"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="21dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginBottom="13dp"
-                app:layout_constraintBottom_toTopOf="@+id/desc_restaurant"
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    app:menu="@menu/top_app_bar"
+                    app:navigationIconTint="@color/white"
+                    app:title="Miam Miam App"
+                    app:titleTextColor="@color/white" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="729dp"
+            tools:layout_editor_absoluteY="1dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="411dp"
+                android:layout_height="169dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
+                app:layout_constraintTop_toBottomOf="@+id/restaurant_preview"
+                app:layout_constraintVertical_bias="0.0">
 
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/openCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                app:elevation="6dp"
-                app:layout_constraintBottom_toBottomOf="@+id/restaurant_preview"
-                app:layout_constraintEnd_toEndOf="@+id/restaurant_preview"
-                app:pressedTranslationZ="12dp"
-                android:contentDescription="TODO" />
-
-            <TextView
-                android:id="@+id/desc_restaurant"
-                android:layout_width="364dp"
-                android:layout_height="104dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginEnd="17dp"
-                android:layout_marginBottom="88dp"
-                android:text="Description"
-                app:layout_constraintBottom_toTopOf="@+id/rating_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/restaurant_preview" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    />
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
-                android:layout_width="0dp"
+                android:id="@+id/rating_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="75dp"
+                android:hint="Votre commentaire"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rating_text">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/rating_text"
-                android:layout_width="0dp"
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="88dp"
-                android:hint="Leave a comment"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+                android:numStars="5"
+                app:layout_constraintBottom_toTopOf="@+id/openCamera"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/desc_restaurant" />
+                app:layout_constraintTop_toBottomOf="@+id/rating_text" />
+
+            <ImageView
+                android:id="@+id/restaurant_preview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.120000005"
+                app:srcCompat="@drawable/ic_launcher_foreground"
+                tools:layout_editor_absoluteX="-1dp" />
+
+            <Button
+                android:id="@+id/submitButton"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:text="@string/envoyer"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/main_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.97" />
+
+            <Button
+                android:id="@+id/backbutton"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:text="Retour"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/main_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.97" />
+
+            <Button
+                android:id="@+id/openCamera"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:paddingStart="15dp"
+                app:backgroundTint="@color/main_color"
+                app:icon="@drawable/ic_open_camera"
+                app:iconPadding="-40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/submitButton"
+                app:layout_constraintStart_toEndOf="@+id/backbutton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.97" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

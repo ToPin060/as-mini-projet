@@ -7,62 +7,105 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="14dp">
 
-    <ImageView
-        android:id="@+id/editableImage"
-        android:layout_width="408dp"
-        android:layout_height="447dp"
-        android:contentDescription="@string/todo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_retake"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_validate"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toEndOf="@+id/button_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/editableImage"
-        app:layout_constraintVertical_bias="1.0" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_color">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:menu="@menu/top_app_bar"
+                app:navigationIconTint="@color/white"
+                app:title="Miam Miam App"
+                app:titleTextColor="@color/white" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <Button
         android:id="@+id/button_validate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/valider"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="@string/envoyer"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/main_color"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="663dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        />
+
+    <ImageView
+        android:id="@+id/editableImage"
+        android:layout_width="407dp"
+        android:layout_height="365dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/button_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/annuler"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="Retour"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/main_color"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="663dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        />
+
+    <Button
+        android:id="@+id/button_retake"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:paddingStart="15dp"
+        app:backgroundTint="@color/main_color"
+        app:icon="@drawable/ic_retake_photo"
+        app:iconPadding="-40dp"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="663dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_validate"
+        app:layout_constraintStart_toEndOf="@+id/button_cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="434dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="409dp"
+        android:layout_height="214dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_cancel"
+        app:layout_constraintBottom_toTopOf="@+id/button_retake"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/editableImage"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

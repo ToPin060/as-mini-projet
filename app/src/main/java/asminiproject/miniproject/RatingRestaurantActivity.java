@@ -1,11 +1,14 @@
 package asminiproject.miniproject;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
@@ -19,25 +22,42 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.zomato.photofilters.SampleFilters;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import asminiproject.miniproject.thumbnails.ThumbnailCallback;
+import asminiproject.miniproject.thumbnails.ThumbnailItem;
+import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
+import asminiproject.miniproject.thumbnails.ThumbnailsManager;
 
 public class RatingRestaurantActivity extends AppCompatActivity {
 
+    Activity activity;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private ImageView restaurantPreview;
     private RatingBar ratingBar;
     private Button submitButton;
-    private TextInputEditText ratingInput;
+    private Button opencameraButton;
+    private TextInputLayout ratingInput;
     private ActivityResultLauncher<Intent> takepicturelauncher;
     private ArrayList<Bitmap> capturedImages;
+    private RecyclerView recyclerView;
+
     private final ByteArrayOutputStream bStream = new ByteArrayOutputStream();
     private Bitmap editedImage;
+    List<ThumbnailItem> thumbs;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +73,9 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         submitButton = findViewById(R.id.submitButton);
         ratingInput = findViewById(R.id.rating_text);
-        FloatingActionButton buttonOpenCamera = findViewById(R.id.openCamera);
+        opencameraButton = findViewById(R.id.openCamera);
+        recyclerView = findViewById(R.id.recyclerView);
+
         takepicturelauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -70,7 +92,7 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         );
 
         if(ratingComment != null){
-            ratingInput.setText(ratingComment);
+            ratingInput.getEditText().setText(ratingComment);
         }
         if(ratingBarValue != 0.0f){
             ratingBar.setRating(ratingBarValue);
@@ -78,24 +100,63 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         if(capturedImages == null){
             capturedImages = new ArrayList<>();
         }
-        else {
-            updateRestaurantPreview();
-        }
 
         byte[] byteArray = getIntent().getByteArrayExtra("image");
         if (byteArray != null){
+
             editedImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             capturedImages.add(editedImage);
-            updateRestaurantPreview();
+            initThumbnailList();
         }
 
-        buttonOpenCamera.setOnClickListener(view -> checkCameraPermission());
+        opencameraButton.setOnClickListener(view -> checkCameraPermission());
         submitButton.setOnClickListener(view -> onSubmitReview());
     }
 
+    protected void initThumbnailList(){
+
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        bindDatatoAdapter();
+    }
+
+    private void bindDatatoAdapter(){
+        Log.d("Debug", "Dans BINDDATA");
+        final Context context = this.getApplication();
+        Handler handler = new Handler();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+
+                thumbs = new ArrayList<>();
+                for (Bitmap bitmap: capturedImages){
+                    ThumbnailItem t = new ThumbnailItem();
+                    t.image = bitmap;
+                    thumbs.add(t);
+                }
+
+                ThumbnailsAdapter adapter = new ThumbnailsAdapter(thumbs, (ThumbnailCallback) activity);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        };
+        handler.post(r);
+    }
+
     private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        takepicturelauncher.launch(takePictureIntent);
+        if (capturedImages.size() < 3) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            takepicturelauncher.launch(takePictureIntent);
+        }
+        else {
+            Toast.makeText(this, "Vous ne pouvez prendre qu'au maximum 3 photos",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void checkCameraPermission() {
@@ -123,7 +184,7 @@ public class RatingRestaurantActivity extends AppCompatActivity {
 
     protected void onSubmitReview(){
         float ratingScore = ratingBar.getRating();
-        String ratingText = Objects.requireNonNull(ratingInput.getText()).toString();
+        String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
         if (ratingScore > 0) {
 
@@ -152,7 +213,7 @@ public class RatingRestaurantActivity extends AppCompatActivity {
     private void editPreviewImage(Bitmap image){
 
         float ratingScore = ratingBar.getRating();
-        String ratingText = Objects.requireNonNull(ratingInput.getText()).toString();
+        String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
         Intent intent = new Intent(RatingRestaurantActivity.this, EditPhotoActivity.class);
         image.compress(Bitmap.CompressFormat.PNG, 100, bStream);
@@ -161,6 +222,7 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         intent.putExtra("image", byteArray);
         intent.putExtra("ratingBar", ratingScore);
         intent.putExtra("ratingText", ratingText);
+        intent.putParcelableArrayListExtra("capturedImages", capturedImages);
 
         startActivity(intent);
     }
