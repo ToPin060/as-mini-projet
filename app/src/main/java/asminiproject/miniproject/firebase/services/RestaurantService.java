@@ -1,4 +1,4 @@
-package asminiproject.miniproject.firebase.controllers;
+package asminiproject.miniproject.firebase.services;
 
 import android.util.Log;
 
@@ -18,15 +18,18 @@ import java.util.List;
 
 import asminiproject.miniproject.firebase.model.Restaurant;
 
-public class RestaurantController {
-    private static final String TAG = "RestaurantController";
+public class RestaurantService {
+    private static final String TAG = "RestaurantService";
     private static final String ENTITY_NAME = "Restaurant";
 
-    public void addRestaurant(FirebaseFirestore database, Restaurant restaurant) {
-        if (restaurant == null || database == null ||
-            restaurant.getMeals().isEmpty() ||
-            restaurant.getAddress() == null ||
-            restaurant.getName().isEmpty())
+    private static Boolean isRestaurantInvalid(Restaurant restaurant) {
+        return restaurant.getMeals().isEmpty() ||
+                        restaurant.getAddress() == null ||
+                        restaurant.getName().isEmpty();
+    }
+
+    public static void addRestaurant(FirebaseFirestore database, Restaurant restaurant) {
+        if (restaurant == null || database == null || isRestaurantInvalid(restaurant))
             throw new IllegalArgumentException("Restaurant is null or required field is missing.");
 
         CollectionReference collectionReferenceRestaurant = database.collection(ENTITY_NAME);
@@ -44,7 +47,9 @@ public class RestaurantController {
         });
     }
 
-    public void getAllRestaurants(FirebaseFirestore database, SimpleCallback<List<Restaurant>> callback) {
+    public static void getAllRestaurants(FirebaseFirestore database, SimpleCallback<List<Restaurant>> callback) {
+        if (database == null) throw new IllegalArgumentException("Database is null.");
+
         List<Restaurant> allRestaurants = new ArrayList<>();
 
         CollectionReference collectionReferenceRestaurant = database.collection(ENTITY_NAME);

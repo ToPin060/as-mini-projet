@@ -1,4 +1,4 @@
-package asminiproject.miniproject.firebase.controllers;
+package asminiproject.miniproject.firebase.services;
 
 import android.util.Log;
 
@@ -19,9 +19,9 @@ import java.util.List;
 
 import asminiproject.miniproject.firebase.model.Address;
 
-public class AddressController {
+public class AddressService {
 
-    private static final String TAG = "AddressController.class";
+    private static final String TAG = "AddressService";
     private static final String ENTITY_NAME = "Address";
 
     public static void addAddress(FirebaseFirestore database, Address address) {
@@ -45,7 +45,7 @@ public class AddressController {
 
     /*
     To use the get function, do this :
-    getAllAddresses(new SimpleCallback() {
+    AddressService.getAllAddresses(new SimpleCallback() {
         @Override
         public void callback(List<Address> addresses) {
             // Treatment goes here.

@@ -14,9 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 import asminiproject.miniproject.R;
-import asminiproject.miniproject.firebase.controllers.SimpleCallback;
+import asminiproject.miniproject.firebase.services.SimpleCallback;
 import asminiproject.miniproject.firebase.model.Address;
-import asminiproject.miniproject.firebase.controllers.AddressController;
+import asminiproject.miniproject.firebase.services.AddressService;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         //Quick examples :)
         CollectionReference dbAddress = db.collection("Address");
 
-        AddressController.addAddress(db, new Address((float) 1.8456124E-4, (float) 1.9864198E-4));
+        AddressService.addAddress(db, new Address((float) 1.8456124E-4, (float) 1.9864198E-4));
 
         //Use getAllAddresses et al like this.
-        AddressController.getAllAddresses(db, new SimpleCallback<List<Address>>() {
+        AddressService.getAllAddresses(db, new SimpleCallback<List<Address>>() {
             @Override
             public void callback(List<Address> data) {
                 data.forEach(address -> Log.d(TAG, address.toString()));
