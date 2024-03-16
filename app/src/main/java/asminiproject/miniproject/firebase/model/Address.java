@@ -4,6 +4,8 @@ public class Address {
     private float lon;
     private float lat;
 
+    public Address() { }
+
     public Address(float _lon, float _lat) {
         this.lon = _lon;
         this.lat = _lat;

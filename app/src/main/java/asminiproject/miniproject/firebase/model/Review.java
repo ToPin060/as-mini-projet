@@ -11,6 +11,8 @@ public class Review {
     private List<String> photos;
     private String review;
 
+    public Review() { }
+
     public Review(Restaurant _restaurant, User _user, float _rating, List<String> _photos, String _review) {
         this.restaurant = _restaurant;
         this.user = _user;

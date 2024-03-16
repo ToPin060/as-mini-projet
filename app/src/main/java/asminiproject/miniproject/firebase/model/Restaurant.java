@@ -9,6 +9,8 @@ public class Restaurant {
     private Address address;
     private List<String> meals;
 
+    public Restaurant() { }
+
     public Restaurant(int _name, Address _address, List<String> _meals) {
         this.name = _name;
         this.address = _address;

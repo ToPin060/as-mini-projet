@@ -9,6 +9,8 @@ public class User {
     private String photoAddr;
     private Address address;
 
+    public User() { }
+
     public User(String _pseudo, String _name, String _firstName, String _photoAddr, Address _address) {
         this.pseudo = _pseudo;
         this.name = _name;
