@@ -5,23 +5,23 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 public class Restaurant {
-    private int name;
+    private String name;
     private Address address;
     private List<String> meals;
 
     public Restaurant() { }
 
-    public Restaurant(int _name, Address _address, List<String> _meals) {
+    public Restaurant(String _name, Address _address, List<String> _meals) {
         this.name = _name;
         this.address = _address;
         this.meals = _meals;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 

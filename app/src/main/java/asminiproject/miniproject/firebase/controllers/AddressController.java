@@ -1,4 +1,4 @@
-package asminiproject.miniproject.firebase;
+package asminiproject.miniproject.firebase.controllers;
 
 import android.util.Log;
 
@@ -15,7 +15,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import asminiproject.miniproject.firebase.model.Address;
@@ -23,12 +22,15 @@ import asminiproject.miniproject.firebase.model.Address;
 public class AddressController {
 
     private static final String TAG = "AddressController.class";
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference tableAddress = firestore.collection("Address");
+    private static final String ENTITY_NAME = "Address";
 
-    public void addAddress(Address address) {
-        if (address == null) throw new IllegalArgumentException("Address to add to FireStore is null.");
-        tableAddress.add(address).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    public static void addAddress(FirebaseFirestore database, Address address) {
+        if (address == null || database == null)
+            throw new IllegalArgumentException("Address to add to FireStore is null.");
+
+        CollectionReference collectionReferenceAddress = database.collection(ENTITY_NAME);
+
+        collectionReferenceAddress.add(address).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "Address " + address + " successfully added to db.");
@@ -50,9 +52,13 @@ public class AddressController {
         }
     }
     */
-    public void getAllAddresses(SimpleCallback<List<Address>> callback) {
+    public static void getAllAddresses(FirebaseFirestore database, SimpleCallback<List<Address>> callback) {
+        if (database == null) throw new IllegalArgumentException("Database argument is null.");
+
+        CollectionReference collectionReferenceAddress = database.collection(ENTITY_NAME);
+
         List<Address> allAddresses = new ArrayList<>();
-        tableAddress.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        collectionReferenceAddress.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
