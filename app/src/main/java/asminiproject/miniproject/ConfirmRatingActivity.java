@@ -1,6 +1,5 @@
 package asminiproject.miniproject;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class ConfirmRating extends AppCompatActivity {
+public class ConfirmRatingActivity extends AppCompatActivity {
 
     private Button sendButton;
     private Button returnButton;
@@ -83,7 +82,7 @@ public class ConfirmRating extends AppCompatActivity {
 
         Log.d("OnConfirm", "Bouton Envoyer");
 
-        Intent intent = new Intent(ConfirmRating.this, MainActivity.class);
+        Intent intent = new Intent(ConfirmRatingActivity.this, MainActivity.class);
 
         startActivity(intent);
     }
@@ -95,7 +94,7 @@ public class ConfirmRating extends AppCompatActivity {
         ArrayList<Bitmap> capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
 
 
-        Intent intent = new Intent(ConfirmRating.this, RatingRestaurantActivity.class);
+        Intent intent = new Intent(ConfirmRatingActivity.this, RatingRestaurantActivity.class);
         intent.putExtra("ratingBarValue", ratingBarValue);
         intent.putExtra("ratingComment", ratingComment);
         intent.putParcelableArrayListExtra("capturedImages", capturedImages);
@@ -103,4 +102,7 @@ public class ConfirmRating extends AppCompatActivity {
 
         finish();
     }
+
+    //TODO
+    // Improve view of the All captured images
 }

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Mini Project</string>
     <string name="envoyer">Envoyer</string>
+    <string name="valider">Valider</string>
+    <string name="annuler">Annuler</string>
+    <string name="noir_et_blanc">Noir et Blanc</string>
+    <string name="todo">TODO</string>
 </resources>
