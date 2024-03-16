@@ -1,4 +1,4 @@
-package asminiproject.miniproject.firebase.model;
+package asminiproject.miniproject.firebase;
 
 import android.util.Log;
 
@@ -17,6 +17,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import asminiproject.miniproject.firebase.model.Address;
 
 public class AddressController {
 
@@ -39,7 +41,16 @@ public class AddressController {
         });
     }
 
-    public List<Address> getAllAddresses() {
+    /*
+    To use the get function, do this :
+    getAllAddresses(new SimpleCallback() {
+        @Override
+        public void callback(List<Address> addresses) {
+            // Treatment goes here.
+        }
+    }
+    */
+    public void getAllAddresses(SimpleCallback<List<Address>> callback) {
         List<Address> allAddresses = new ArrayList<>();
         tableAddress.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -49,6 +60,7 @@ public class AddressController {
                         allAddresses.add(documentSnapshot.toObject(Address.class));
                     }
                 }
+                callback.callback(allAddresses);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -58,11 +70,5 @@ public class AddressController {
                         e.getMessage());
             }
         });
-
-        if (allAddresses.size() == 0) {
-            return Collections.emptyList();
-        } else {
-            return allAddresses;
-        }
     }
 }
