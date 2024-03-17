@@ -15,9 +15,14 @@ import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 
+import asminiproject.miniproject.map.Map;
+import asminiproject.miniproject.services.RestaurantsService;
+
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+
     private Context _context = null;
+    private RestaurantsService _restaurantsService = null;
     private Map map = null;
 
     @Override
@@ -35,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         Configuration.getInstance().load(_context, PreferenceManager.getDefaultSharedPreferences(_context));
         setContentView(R.layout.activity_main);
 
-        map = new Map(_context, (MapView) findViewById(R.id.map));
+        _restaurantsService = new RestaurantsService();
+
+        map = new Map(_context, (MapView) findViewById(R.id.map), _restaurantsService);
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {
@@ -47,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 permissionsToRequest.add(permission);
             }
         }
-        if (permissionsToRequest.size() > 0) {
+        if (!permissionsToRequest.isEmpty()) {
             ActivityCompat.requestPermissions(
                 this,
                 permissionsToRequest.toArray(new String[0]),
