@@ -24,17 +24,23 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <meta-data
             android:name="org.osmdroid.tileprovider.tilesource.ITileSource"
             android:value="Mapnik"/>
         <activity android:name=".EditPhotoActivity" />
         <activity android:name=".ConfirmRatingActivity" />
+        <activity
+            android:name=".ReservationActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
