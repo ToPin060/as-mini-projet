@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -102,7 +101,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_photo);
+        setContentView(R.layout.activity_edit_photo);
         activity = this;
 
         initUIElements();
@@ -112,9 +111,9 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
 
         setImageView(toEditImage);
 
-        retakeButton.setOnClickListener(v -> { retakeAction(); });
-        cancelButton.setOnClickListener(v -> { cancelAction(); });
-        validateButton.setOnClickListener(v -> { validateAction(); });
+        retakeButton.setOnClickListener(v -> retakeAction());
+        cancelButton.setOnClickListener(v -> cancelAction());
+        validateButton.setOnClickListener(v -> validateAction());
 
         takepicturelauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -164,42 +163,39 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     private void bindDatatoAdapter(){
         final Context context = this.getApplication();
         Handler handler = new Handler();
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                ThumbnailItem t1 = new ThumbnailItem();
-                ThumbnailItem t3 = new ThumbnailItem();
-                ThumbnailItem t4 = new ThumbnailItem();
-                ThumbnailItem t5 = new ThumbnailItem();
-                ThumbnailItem t6 = new ThumbnailItem();
+        Runnable r = () -> {
+            ThumbnailItem t1 = new ThumbnailItem();
+            ThumbnailItem t3 = new ThumbnailItem();
+            ThumbnailItem t4 = new ThumbnailItem();
+            ThumbnailItem t5 = new ThumbnailItem();
+            ThumbnailItem t6 = new ThumbnailItem();
 
-                t1.image = initImage;
-                t3.image = initImage;
-                t4.image = initImage;
-                t5.image = initImage;
-                t6.image = initImage;
+            t1.image = initImage;
+            t3.image = initImage;
+            t4.image = initImage;
+            t5.image = initImage;
+            t6.image = initImage;
 
-                ThumbnailsManager.clearThumbs();
-                ThumbnailsManager.addThumb(t1);
+            ThumbnailsManager.clearThumbs();
+            ThumbnailsManager.addThumb(t1);
 
-                t3.filter = SampleFilters.getStarLitFilter();
-                ThumbnailsManager.addThumb(t3);
+            t3.filter = SampleFilters.getStarLitFilter();
+            ThumbnailsManager.addThumb(t3);
 
-                t4.filter = SampleFilters.getNightWhisperFilter();
-                ThumbnailsManager.addThumb(t4);
+            t4.filter = SampleFilters.getNightWhisperFilter();
+            ThumbnailsManager.addThumb(t4);
 
-                t5.filter = SampleFilters.getLimeStutterFilter();
-                ThumbnailsManager.addThumb(t5);
+            t5.filter = SampleFilters.getLimeStutterFilter();
+            ThumbnailsManager.addThumb(t5);
 
-                t6.filter = SampleFilters.getAweStruckVibeFilter();
-                ThumbnailsManager.addThumb(t6);
+            t6.filter = SampleFilters.getAweStruckVibeFilter();
+            ThumbnailsManager.addThumb(t6);
 
-                List<ThumbnailItem> thumbs = ThumbnailsManager.processThumbs(context);
+            List<ThumbnailItem> thumbs = ThumbnailsManager.processThumbs(context);
 
-                ThumbnailsAdapter adapter = new ThumbnailsAdapter(thumbs, (ThumbnailCallback) activity);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
+            ThumbnailsAdapter adapter = new ThumbnailsAdapter(thumbs, (ThumbnailCallback) activity);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         };
         handler.post(r);
     }
