@@ -32,7 +32,7 @@
         </activity>
         <activity android:name=".activities.RestaurantProfileActivity" />
         <activity android:name=".activities.ReservationActivity" />
-        <activity android:name=".activities.RatingRestaurantActivity" />
+        <activity android:name=".activities.RestaurantReviewActivity" />
         <activity android:name=".activities.EditPhotoActivity" />
         <activity android:name=".activities.ConfirmRatingActivity" />
 
