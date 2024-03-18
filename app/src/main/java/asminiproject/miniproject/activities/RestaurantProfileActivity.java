@@ -20,7 +20,7 @@ import asminiproject.miniproject.R;
 import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.services.RestaurantsService;
 
-public class RestaurantDescriptionActivity extends AppCompatActivity {
+public class RestaurantProfileActivity extends AppCompatActivity {
     private final int[] dayIds = new int[]{
             R.id.monday_slots,
             R.id.tuesday_slots,
@@ -63,7 +63,7 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
                 .getRestaurantById(getIntent().getIntExtra("RESTAURANT_ID", 11));
 
         Configuration.getInstance().load(_context, PreferenceManager.getDefaultSharedPreferences(_context));
-        setContentView(R.layout.activity_restaurant_description);
+        setContentView(R.layout.activity_restaurant_profile);
 
         _nameView = (TextView) findViewById(R.id.name_view);
         _overallRatingView = (TextView) findViewById(R.id.overall_rating_view);

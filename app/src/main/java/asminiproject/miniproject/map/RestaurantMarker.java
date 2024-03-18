@@ -10,7 +10,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import asminiproject.miniproject.R;
-import asminiproject.miniproject.activities.RestaurantDescriptionActivity;
+import asminiproject.miniproject.activities.RestaurantProfileActivity;
 import asminiproject.miniproject.dc.Restaurant;
 
 public class RestaurantMarker extends Marker {
@@ -36,7 +36,7 @@ public class RestaurantMarker extends Marker {
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         if (!hitTest(event, mapView)) return false;
 
-        Intent restaurantDescriptionIntent = new Intent(_context, RestaurantDescriptionActivity.class);
+        Intent restaurantDescriptionIntent = new Intent(_context, RestaurantProfileActivity.class);
         restaurantDescriptionIntent.putExtra("RESTAURANT_ID", _restaurant.id);
         restaurantDescriptionIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
