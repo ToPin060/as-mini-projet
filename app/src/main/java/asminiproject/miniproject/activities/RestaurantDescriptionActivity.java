@@ -55,6 +55,7 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
         setupButtonsEvent();
     }
 
+
     private void initializeActivity() {
         _context = getApplicationContext();
         restaurantsService = RestaurantsService.getInstance();
@@ -93,23 +94,23 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
             ViewGroup timeslot2 =  _scheduleInclude.findViewById(dayIds[i]).findViewById(R.id.timeslot2);
 
             ((TextView) timeslot1.findViewById(R.id.startH_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.startH));
+                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.startH));
             ((TextView) timeslot1.findViewById(R.id.startM_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.startM));
+                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.startM));
             ((TextView) timeslot1.findViewById(R.id.endH_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.endH));
+                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.endH));
             ((TextView) timeslot1.findViewById(R.id.endM_text))
-                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.endM));
+                    .setText(computeStringFromInt(_restaurant.schedule.get(i).first.endM));
 
-            if (_restaurant.schedule.schedules.get(i).second != null) {
+            if (_restaurant.schedule.get(i).second != null) {
                 ((TextView) timeslot2.findViewById(R.id.startH_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.startH));
+                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.startH));
                 ((TextView) timeslot2.findViewById(R.id.startM_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.startM));
+                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.startM));
                 ((TextView) timeslot2.findViewById(R.id.endH_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.endH));
+                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.endH));
                 ((TextView) timeslot2.findViewById(R.id.endM_text))
-                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.endM));
+                        .setText(computeStringFromInt(_restaurant.schedule.get(i).second.endM));
             } else {
                 timeslot2.setVisibility(View.INVISIBLE);
             }

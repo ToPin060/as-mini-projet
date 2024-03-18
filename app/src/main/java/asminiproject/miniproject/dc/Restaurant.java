@@ -12,7 +12,7 @@ public class Restaurant {
     public GeoPoint localization;
     public String phone;
     public Schedule schedule;
-    public List<Rating> ratings;
+    public List<Review> reviews;
 
     public float overallRating;
     public int ratingsNumber;
@@ -25,28 +25,28 @@ public class Restaurant {
         localization = localization_;
         phone = phone_;
         schedule = schedule_;
-        ratings = new ArrayList<Rating>();
+        reviews = new ArrayList<Review>();
 
         computeAttributes();
     }
-    public Restaurant(int id_, String name_, String address_, GeoPoint localization_, String phone_, Schedule schedule_, List<Rating> ratings_) {
+    public Restaurant(int id_, String name_, String address_, GeoPoint localization_, String phone_, Schedule schedule_, List<Review> ratings_) {
         id = id_;
         name = name_;
         address = address_;
         phone = phone_;
         schedule = schedule_;
         localization = localization_;
-        ratings = ratings_;
+        reviews = ratings_;
 
         computeAttributes();
     }
 
     private void computeAttributes() {
-        ratingsNumber = ratings.size();
+        ratingsNumber = reviews.size();
 
-        int sum = 0;
+        float sum = 0;
         for (int i = 0; i < ratingsNumber; i++) {
-            sum += ratings.get(i).value;
+            sum += reviews.get(i).rating;
         }
         overallRating = (float)((int) (((float) sum)/ratingsNumber * 10) / 10);
     }
