@@ -14,9 +14,9 @@ import asminiproject.miniproject.activities.RestaurantDescriptionActivity;
 import asminiproject.miniproject.dc.Restaurant;
 
 public class RestaurantMarker extends Marker {
-    private final Context _context;
-
     private final Restaurant _restaurant;
+
+    private final Context _context;
 
 
     public RestaurantMarker(MapView mapView, Context context, Restaurant restaurant) {
@@ -28,7 +28,7 @@ public class RestaurantMarker extends Marker {
         this.setTitle(restaurant.name);
         this.setPosition(restaurant.localization);
         this.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        this.setIcon(ResourcesCompat.getDrawable(_context.getResources(), R.drawable.pin_green, null));
+        this.setIcon(ResourcesCompat.getDrawable(_context.getResources(), R.drawable.pin_red, null));
     }
 
 

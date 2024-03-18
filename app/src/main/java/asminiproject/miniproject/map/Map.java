@@ -7,7 +7,6 @@ import androidx.core.content.res.ResourcesCompat;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -34,28 +33,18 @@ public class Map {
         _mapView = mapView;
         _restaurantsService = RestaurantsService.getInstance();
 
-        initialization();
+        setupMap();
     }
 
 
-    private void initialization() {
-        _mapView.setTileSource(TileSourceFactory.MAPNIK);
-
-        //DEPRECATED: _mapView.setBuiltInZoomControls(true);
-        _mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
-        _mapView.setMultiTouchControls(true);
-
-        // Place the device location marker
+    private void setupMap() {
         generateCurrentLocationMarker();
-
-        _mapView.getController().setCenter(_myLocation);
-        _mapView.getController().setZoom(_mapZoom);
-
         generateRestaurantMarkers();
 
-        CompassOverlay _compassOverlay = new CompassOverlay(_context, new InternalCompassOrientationProvider(_context), _mapView);
-        _compassOverlay.enableCompass();
-        _mapView.getOverlays().add(_compassOverlay);
+        _mapView.setTileSource(TileSourceFactory.MAPNIK);
+        _mapView.getController().setCenter(_myLocation);
+        _mapView.getController().setZoom(_mapZoom);
+        _mapView.setMultiTouchControls(true);
     }
 
 
@@ -65,11 +54,11 @@ public class Map {
         marker.setTitle("Your location");
         marker.setPosition((GeoPoint) _myLocation);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        marker.setIcon(ResourcesCompat.getDrawable(_context.getResources(), R.drawable.pin_red, null));
-
+        marker.setIcon(ResourcesCompat.getDrawable(_context.getResources(), R.drawable.pin_green, null));
 
         _mapView.getOverlays().add(marker);
     }
+
     private void generateRestaurantMarkers() {
         List<Restaurant> restaurants = _restaurantsService.getRestaurants();
 
