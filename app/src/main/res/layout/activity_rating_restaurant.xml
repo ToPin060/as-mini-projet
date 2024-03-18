@@ -15,7 +15,7 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/top_app_bar" />
+            layout="@layout/component_top_app_bar_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

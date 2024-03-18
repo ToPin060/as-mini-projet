@@ -8,7 +8,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/top_app_bar" />
+        layout="@layout/component_top_app_bar_container" />
 
     <TextView
         android:id="@+id/titre"
@@ -17,10 +17,10 @@
         android:fontFamily="cursive"
         android:text="Un aperçu de votre avis"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topAppBarContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/top_app_bar_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topAppBarContainer"
+        app:layout_constraintTop_toTopOf="@+id/top_app_bar_container"
         app:layout_constraintVertical_bias="0.16000003" />
 
     <com.google.android.material.card.MaterialCardView
