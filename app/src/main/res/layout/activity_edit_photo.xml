@@ -7,29 +7,10 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="14dp">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout2"
+    <include
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/main_color">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                app:menu="@menu/top_app_bar"
-                app:navigationIconTint="@color/white"
-                app:title="Miam Miam App"
-                app:titleTextColor="@color/white" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="wrap_content"
+        layout="@layout/top_app_bar" />
 
     <Button
         android:id="@+id/button_validate"
