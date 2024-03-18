@@ -32,7 +32,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Log.v(TAG, "On Create View Holder Called");
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.list_thumbnail_item, viewGroup, false);
+                inflate(R.layout.component_list_thumbnail_item, viewGroup, false);
         return new ThumbnailsViewHolder(itemView);
     }
 

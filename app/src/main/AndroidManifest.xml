@@ -20,7 +20,7 @@
         android:theme="@style/Theme.MiniProject"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MapActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
             >
@@ -30,9 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RatingRestaurantActivity" />
-        <activity android:name=".EditPhotoActivity" />
-        <activity android:name=".ConfirmRatingActivity" />
+        <activity android:name=".activities.RestaurantDescriptionActivity" />
+        <activity android:name=".activities.ReservationActivity" />
+        <activity android:name=".activities.RatingRestaurantActivity" />
+        <activity android:name=".activities.EditPhotoActivity" />
+        <activity android:name=".activities.ConfirmRatingActivity" />
 
         <meta-data
             android:name="org.osmdroid.tileprovider.tilesource.ITileSource"

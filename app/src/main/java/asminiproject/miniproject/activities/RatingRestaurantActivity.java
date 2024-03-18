@@ -1,4 +1,4 @@
-package asminiproject.miniproject;
+package asminiproject.miniproject.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import asminiproject.miniproject.R;
 import asminiproject.miniproject.thumbnails.ThumbnailCallback;
 import asminiproject.miniproject.thumbnails.ThumbnailItem;
 import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
