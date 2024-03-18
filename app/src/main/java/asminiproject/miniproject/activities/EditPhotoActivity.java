@@ -135,7 +135,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
 
     }
     protected void cancelAction() {
-        Intent intent = new Intent(EditPhotoActivity.this, RatingRestaurantActivity.class);
+        Intent intent = new Intent(EditPhotoActivity.this, RestaurantReviewActivity.class);
 
         intent.putExtra("ratingBarValue", ratingBarValue);
         intent.putExtra("ratingComment", ratingTextValue);
@@ -148,7 +148,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     }
 
     protected void validateAction() {
-        Intent intent = new Intent(EditPhotoActivity.this, RatingRestaurantActivity.class);
+        Intent intent = new Intent(EditPhotoActivity.this, RestaurantReviewActivity.class);
         toEditImage.compress(Bitmap.CompressFormat.PNG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
 

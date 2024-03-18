@@ -37,14 +37,13 @@ import asminiproject.miniproject.thumbnails.ThumbnailCallback;
 import asminiproject.miniproject.thumbnails.ThumbnailItem;
 import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
 
-public class RatingRestaurantActivity extends AppCompatActivity {
-
-    Activity activity;
+public class RestaurantReviewActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private Activity activity;
+
     private ImageView restaurantPreview; //ImageView a modifié par un preview de Restaurant
     private RatingBar ratingBar;
-    private Button submitButton;
-    private Button opencameraButton;
+    private Button _backButton, _submitButton, _cameraButton;
     private TextInputLayout ratingInput;
     private ActivityResultLauncher<Intent> takepicturelauncher;
     private ArrayList<Bitmap> capturedImages;
@@ -54,13 +53,41 @@ public class RatingRestaurantActivity extends AppCompatActivity {
     private Bitmap editedImage;
     List<ThumbnailItem> thumbs;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_restaurant_review);
+
+        initUIElements();
+        initIntentElements();
+        setupButtonsEvent();
+
+        takepicturelauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Bundle extras = result.getData().getExtras();
+                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+                        if (imageBitmap != null) {
+                            editPreviewImage(imageBitmap);
+                        } else {
+                            Toast.makeText(this, "Erreur lors de la capture de la photo", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+
+    }
+
     public void initUIElements(){
         restaurantPreview = findViewById(R.id.restaurant_preview);
         ratingBar = findViewById(R.id.ratingBar);
-        submitButton = findViewById(R.id.submitButton);
         ratingInput = findViewById(R.id.rating_text);
-        opencameraButton = findViewById(R.id.openCamera);
         recyclerView = findViewById(R.id.recyclerView);
+        _backButton = findViewById(R.id.back_button);
+        _submitButton = findViewById(R.id.submit_button);
+        _cameraButton = findViewById(R.id.camera_button);
     }
 
     public void initIntentElements(){
@@ -85,32 +112,6 @@ public class RatingRestaurantActivity extends AppCompatActivity {
             capturedImages.add(editedImage);
             initThumbnailList();
         }
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rating_restaurant);
-
-        initUIElements();
-        initIntentElements();
-
-        opencameraButton.setOnClickListener(view -> checkCameraPermission());
-        submitButton.setOnClickListener(view -> onSubmitReview());
-
-        takepicturelauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Bundle extras = result.getData().getExtras();
-                        Bitmap imageBitmap = (Bitmap) extras.get("data");
-                        if (imageBitmap != null) {
-                            editPreviewImage(imageBitmap);
-                        } else {
-                            Toast.makeText(this, "Erreur lors de la capture de la photo", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
     }
 
     protected void initThumbnailList(){
@@ -159,14 +160,6 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         }
     }
 
-    private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-        } else {
-            // La permission est déjà accordée, vous pouvez ouvrir l'appareil photo
-            dispatchTakePictureIntent();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -181,8 +174,16 @@ public class RatingRestaurantActivity extends AppCompatActivity {
             }
         }
     }
+    public void setupButtonsEvent() {
+        _backButton.setOnClickListener(view -> onBackButtonClick());
+        _cameraButton.setOnClickListener(view -> onCameraButtonClick());
+        _submitButton.setOnClickListener(view -> onSubmitButtonClick());
+    }
 
-    protected void onSubmitReview(){
+    public void onBackButtonClick() {
+        finish();
+    }
+    protected void onSubmitButtonClick(){
         float ratingScore = ratingBar.getRating();
         String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
@@ -190,16 +191,24 @@ public class RatingRestaurantActivity extends AppCompatActivity {
 
             ratingInput.setActivated(false);
 
-            Intent intent = new Intent(RatingRestaurantActivity.this, ConfirmRatingActivity.class);
+            Intent intent = new Intent(RestaurantReviewActivity.this, ConfirmRatingActivity.class);
             intent.putExtra("ratingBar", ratingScore);
             intent.putExtra("ratingText", ratingText);
             intent.putParcelableArrayListExtra("capturedImages", capturedImages);
             startActivity(intent);
-            finish();
 
         } else {
             Toast.makeText(this, "Erreur, la note ne peut pas être à 0",
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+    protected void onCameraButtonClick() {
+        // Camera allowed ?
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        } else {
+            // La permission est déjà accordée, vous pouvez ouvrir l'appareil photo
+            dispatchTakePictureIntent();
         }
     }
 
@@ -208,7 +217,7 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         float ratingScore = ratingBar.getRating();
         String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
-        Intent intent = new Intent(RatingRestaurantActivity.this, EditPhotoActivity.class);
+        Intent intent = new Intent(RestaurantReviewActivity.this, EditPhotoActivity.class);
         image.compress(Bitmap.CompressFormat.PNG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
 

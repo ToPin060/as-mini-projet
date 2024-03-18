@@ -3,7 +3,6 @@ package asminiproject.miniproject.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -17,8 +16,8 @@ import asminiproject.miniproject.R;
 
 public class ConfirmRatingActivity extends AppCompatActivity {
 
-    private Button sendButton;
-    private Button returnButton;
+    private Button _sendButton;
+    private Button _returnButton;
     private RatingBar confirmRatingBar;
     private TextView ratingTextValue;
     private ImageView card_image;
@@ -26,8 +25,8 @@ public class ConfirmRatingActivity extends AppCompatActivity {
     public void initUIElements(){
         confirmRatingBar = findViewById(R.id.confirmRatingBar);
         ratingTextValue = findViewById(R.id.ratingTextValue);
-        sendButton = findViewById(R.id.sendButton);
-        returnButton = findViewById(R.id.returnButton);
+        _sendButton = findViewById(R.id.sendButton);
+        _returnButton = findViewById(R.id.returnButton);
         card_image = findViewById(R.id.card_image);
     }
 
@@ -52,35 +51,25 @@ public class ConfirmRatingActivity extends AppCompatActivity {
 
         initUIElements();
         initIntentElements();
-
-        sendButton.setOnClickListener(v -> onSend());
-        returnButton.setOnClickListener(v -> onReturn());
+        setupButtonsEvent();
 
     }
 
-    protected void onSend(){
+    public void setupButtonsEvent() {
+        _returnButton.setOnClickListener(v -> onBackClick());
+        _sendButton.setOnClickListener(v -> onConfirmClick());
+    }
+
+    protected void onBackClick(){
+        finish();
+    }
+    protected void onConfirmClick(){
         // TODO : Mettre ici l'envoie des informations de la review sur la BD
 
-        Log.d("OnConfirm", "Bouton Envoyer");
-
         Intent intent = new Intent(ConfirmRatingActivity.this, MapActivity.class);
-
-        startActivity(intent);
-    }
-
-    protected void onReturn(){
-
-        float ratingBarValue = getIntent().getFloatExtra("ratingBar", 0.0f);
-        CharSequence ratingComment = getIntent().getStringExtra("ratingText");
-        ArrayList<Bitmap> capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
-
-
-        Intent intent = new Intent(ConfirmRatingActivity.this, RatingRestaurantActivity.class);
-        intent.putExtra("ratingBarValue", ratingBarValue);
-        intent.putExtra("ratingComment", ratingComment);
-        intent.putParcelableArrayListExtra("capturedImages", capturedImages);
         startActivity(intent);
 
-        finish();
+        // Remove the previous history stack
+        finishAffinity();
     }
 }

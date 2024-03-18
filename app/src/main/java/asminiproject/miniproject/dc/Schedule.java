@@ -2,14 +2,15 @@ package asminiproject.miniproject.dc;
 
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Schedule {
-    public List<Pair<TimeSlot, TimeSlot>> schedules;
-
+public class Schedule extends ArrayList<Pair<TimeSlot, TimeSlot>> {
     public Schedule() { }
-    public Schedule(List<Pair<TimeSlot, TimeSlot>> schedules_) {
-        if (schedules_.size() != 7) throw new RuntimeException();
-        schedules = schedules_;
+    public Schedule(List<Pair<TimeSlot, TimeSlot>> items) {
+        super();
+
+        // TODO: Checks values and intervals
+        this.addAll(items);
     }
 }
