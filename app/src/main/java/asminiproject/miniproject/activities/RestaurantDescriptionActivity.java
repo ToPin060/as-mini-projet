@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -20,6 +21,16 @@ import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.services.RestaurantsService;
 
 public class RestaurantDescriptionActivity extends AppCompatActivity {
+    private final int[] dayIds = new int[]{
+            R.id.monday_slots,
+            R.id.tuesday_slots,
+            R.id.wednesday_slots,
+            R.id.thursday_slots,
+            R.id.friday_slots,
+            R.id.saturday_slots,
+            R.id.sunday_slots
+    };
+
     private Restaurant _restaurant;
 
     private Context _context;
@@ -32,6 +43,7 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
     private RatingBar _ratingBarView;
     private Button _backButtonView, _bookButton;
     private FloatingActionButton _ratingButton;
+    private ViewGroup _scheduleInclude;
 
 
     @Override
@@ -61,6 +73,7 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
         _backButtonView = (Button) findViewById(R.id.back_button_view);
         _bookButton = (Button) findViewById(R.id.book_button_view);
         _ratingButton = (FloatingActionButton) findViewById(R.id.rating_button_view);
+        _scheduleInclude = (ViewGroup) findViewById(R.id.schedule);
     }
 
     private void setupViewsContent() {
@@ -70,7 +83,39 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
         _ratingBarView.setRating(_restaurant.overallRating);
         _addressView.setText(_restaurant.address);
         _phoneView.setText(_restaurant.phone);
+
+        setupScheduleView();
     }
+
+    private void setupScheduleView() {
+        for (int i = 0; i < 7; i++) {
+            ViewGroup timeslot1 =  _scheduleInclude.findViewById(dayIds[i]).findViewById(R.id.timeslot1);
+            ViewGroup timeslot2 =  _scheduleInclude.findViewById(dayIds[i]).findViewById(R.id.timeslot2);
+
+            ((TextView) timeslot1.findViewById(R.id.startH_text))
+                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.startH));
+            ((TextView) timeslot1.findViewById(R.id.startM_text))
+                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.startM));
+            ((TextView) timeslot1.findViewById(R.id.endH_text))
+                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.endH));
+            ((TextView) timeslot1.findViewById(R.id.endM_text))
+                    .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).first.endM));
+
+            if (_restaurant.schedule.schedules.get(i).second != null) {
+                ((TextView) timeslot2.findViewById(R.id.startH_text))
+                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.startH));
+                ((TextView) timeslot2.findViewById(R.id.startM_text))
+                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.startM));
+                ((TextView) timeslot2.findViewById(R.id.endH_text))
+                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.endH));
+                ((TextView) timeslot2.findViewById(R.id.endM_text))
+                        .setText(computeStringFromInt(_restaurant.schedule.schedules.get(i).second.endM));
+            } else {
+                timeslot2.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
     private void setupButtonsEvent() {
         _backButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,5 +141,10 @@ public class RestaurantDescriptionActivity extends AppCompatActivity {
                 _context.startActivity(restaurantRatingActivity);
             }
         });
+    }
+
+    public String computeStringFromInt(int value) {
+        if (value == 0)  return "00";
+        else return String.format("%s", value);
     }
 }
