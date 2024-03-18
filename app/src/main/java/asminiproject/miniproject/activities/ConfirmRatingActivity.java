@@ -1,4 +1,4 @@
-package asminiproject.miniproject;
+package asminiproject.miniproject.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+
+import asminiproject.miniproject.R;
 
 public class ConfirmRatingActivity extends AppCompatActivity {
 
@@ -61,7 +63,7 @@ public class ConfirmRatingActivity extends AppCompatActivity {
 
         Log.d("OnConfirm", "Bouton Envoyer");
 
-        Intent intent = new Intent(ConfirmRatingActivity.this, MainActivity.class);
+        Intent intent = new Intent(ConfirmRatingActivity.this, MapActivity.class);
 
         startActivity(intent);
     }

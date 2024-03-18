@@ -1,4 +1,4 @@
-package asminiproject.miniproject;
+package asminiproject.miniproject.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +19,8 @@ import com.google.android.material.timepicker.TimeFormat;
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Date;
+
+import asminiproject.miniproject.R;
 
 public class ReservationActivity extends AppCompatActivity {
 

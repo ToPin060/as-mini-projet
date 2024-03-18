@@ -5,4 +5,6 @@
     <string name="annuler">Annuler</string>
     <string name="noir_et_blanc">Noir et Blanc</string>
     <string name="todo">TODO</string>
+    <string name="book_button_text">Réserver</string>
+    <string name="back_button_text">Retour</string>
 </resources>

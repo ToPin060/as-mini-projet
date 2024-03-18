@@ -1,21 +1,24 @@
 package asminiproject.miniproject.map;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.MotionEvent;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import asminiproject.miniproject.R;
+import asminiproject.miniproject.activities.RestaurantDescriptionActivity;
 import asminiproject.miniproject.dc.Restaurant;
 
 public class RestaurantMarker extends Marker {
     private final Context _context;
+
     private final Restaurant _restaurant;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+
     public RestaurantMarker(MapView mapView, Context context, Restaurant restaurant) {
         super(mapView);
 
@@ -25,17 +28,19 @@ public class RestaurantMarker extends Marker {
         this.setTitle(restaurant.name);
         this.setPosition(restaurant.localization);
         this.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        this.setIcon(_context.getDrawable(R.drawable.pin_green));
+        this.setIcon(ResourcesCompat.getDrawable(_context.getResources(), R.drawable.pin_green, null));
     }
+
 
     @Override
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        if (hitTest(event, mapView)){
-            onMarkerClickDefault(this, mapView);
-            Log.d("RestaurantMarker", "Restaurant id: " + _restaurant.id);
-            return true;
-        }
+        if (!hitTest(event, mapView)) return false;
 
-        return false;
+        Intent restaurantDescriptionIntent = new Intent(_context, RestaurantDescriptionActivity.class);
+        restaurantDescriptionIntent.putExtra("RESTAURANT_ID", _restaurant.id);
+        restaurantDescriptionIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        _context.startActivity(restaurantDescriptionIntent);
+        return true;
     }
 }

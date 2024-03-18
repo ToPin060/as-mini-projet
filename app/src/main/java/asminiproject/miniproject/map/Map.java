@@ -1,7 +1,8 @@
 package asminiproject.miniproject.map;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -19,27 +20,23 @@ import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.services.RestaurantsService;
 
 public class Map {
-    /**
-     * Essential attributes
-     */
     private final Context _context;
     private final MapView _mapView;
 
     private final RestaurantsService _restaurantsService;
 
-    /**
-     * Configuration attributes
-     */
     private IGeoPoint _myLocation = new GeoPoint(43.6047, 1.4442);
     private double _mapZoom = 18.0;
 
-    public Map(Context context, MapView mapView, RestaurantsService restaurantsService) {
+
+    public Map(Context context, MapView mapView) {
         _context = context;
         _mapView = mapView;
-        _restaurantsService = restaurantsService;
+        _restaurantsService = RestaurantsService.getInstance();
 
         initialization();
     }
+
 
     private void initialization() {
         _mapView.setTileSource(TileSourceFactory.MAPNIK);
@@ -61,14 +58,15 @@ public class Map {
         _mapView.getOverlays().add(_compassOverlay);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+
     private void generateCurrentLocationMarker() {
         Marker marker = new Marker(_mapView);
 
         marker.setTitle("Your location");
         marker.setPosition((GeoPoint) _myLocation);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        marker.setIcon(_context.getDrawable(R.drawable.pin_red));
+        marker.setIcon(ResourcesCompat.getDrawable(_context.getResources(), R.drawable.pin_red, null));
+
 
         _mapView.getOverlays().add(marker);
     }
@@ -81,10 +79,6 @@ public class Map {
         }
     }
 
-
-    /*
-        GETTERS | SETTERS
-     */
 
     public MapView getMapView() {
         return _mapView;

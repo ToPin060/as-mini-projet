@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/schedule_header_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Horaires :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/monday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Lundi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tuesday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Mardi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monday_header_text" />
+
+    <TextView
+        android:id="@+id/wednesday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Mercredi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tuesday_header_text" />
+
+    <TextView
+        android:id="@+id/thursday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Jeudi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wednesday_header_text" />
+
+    <TextView
+        android:id="@+id/friday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Vendredi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thursday_header_text" />
+
+    <TextView
+        android:id="@+id/saturday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Samedi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friday_header_text" />
+
+    <TextView
+        android:id="@+id/sunday_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="0dp"
+        android:text="Dimanche"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saturday_header_text" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_first_timeslot_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="130dp" />
+
+    <include
+        android:id="@+id/monday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/tuesday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/monday_slots" />
+
+    <include
+        android:id="@+id/wednesday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tuesday_slots" />
+
+    <include
+        android:id="@+id/thursday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/wednesday_slots" />
+
+    <include
+        android:id="@+id/friday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/thursday_slots" />
+
+    <include
+        android:id="@+id/saturday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/friday_slots" />
+
+    <include
+        android:id="@+id/sunday_slots"
+        layout="@layout/component_pair_timeslots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/start_first_timeslot_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/saturday_slots" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
