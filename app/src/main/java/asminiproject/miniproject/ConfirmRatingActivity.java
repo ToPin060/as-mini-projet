@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -23,21 +21,18 @@ public class ConfirmRatingActivity extends AppCompatActivity {
     private TextView ratingTextValue;
     private ImageView card_image;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        float ratingBarValue = getIntent().getFloatExtra("ratingBar", 0.0f);
-        CharSequence ratingComment = getIntent().getStringExtra("ratingText");
-        ArrayList<Bitmap> capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.confirm_rating);
-
+    public void initUIElements(){
         confirmRatingBar = findViewById(R.id.confirmRatingBar);
         ratingTextValue = findViewById(R.id.ratingTextValue);
         sendButton = findViewById(R.id.sendButton);
         returnButton = findViewById(R.id.returnButton);
         card_image = findViewById(R.id.card_image);
+    }
+
+    public void initIntentElements(){
+        float ratingBarValue = getIntent().getFloatExtra("ratingBar", 0.0f);
+        CharSequence ratingComment = getIntent().getStringExtra("ratingText");
+        ArrayList<Bitmap> capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
 
         ratingTextValue.setText(ratingComment);
         confirmRatingBar.setRating(ratingBarValue);
@@ -46,20 +41,18 @@ public class ConfirmRatingActivity extends AppCompatActivity {
         if(capturedImages != null){
             card_image.setImageBitmap(capturedImages.get(0));
         }
+    }
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSend();
-            }
-        });
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_confirm_rating);
 
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onReturn();
-            }
-        });
+        initUIElements();
+        initIntentElements();
+
+        sendButton.setOnClickListener(v -> onSend());
+        returnButton.setOnClickListener(v -> onReturn());
 
     }
 
@@ -88,7 +81,4 @@ public class ConfirmRatingActivity extends AppCompatActivity {
 
         finish();
     }
-
-    //TODO
-    // Improve view of the All captured images
 }

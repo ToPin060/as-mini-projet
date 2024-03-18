@@ -25,10 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.zomato.photofilters.SampleFilters;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -38,13 +35,12 @@ import java.util.Objects;
 import asminiproject.miniproject.thumbnails.ThumbnailCallback;
 import asminiproject.miniproject.thumbnails.ThumbnailItem;
 import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
-import asminiproject.miniproject.thumbnails.ThumbnailsManager;
 
 public class RatingRestaurantActivity extends AppCompatActivity {
 
     Activity activity;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-    private ImageView restaurantPreview;
+    private ImageView restaurantPreview; //ImageView a modifié par un preview de Restaurant
     private RatingBar ratingBar;
     private Button submitButton;
     private Button opencameraButton;
@@ -57,39 +53,19 @@ public class RatingRestaurantActivity extends AppCompatActivity {
     private Bitmap editedImage;
     List<ThumbnailItem> thumbs;
 
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.rating_restaurant_activity);
-
-        String ratingComment = getIntent().getStringExtra("ratingComment");
-        float ratingBarValue = getIntent().getFloatExtra("ratingBarValue", 0.0f);
-        capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
-
+    public void initUIElements(){
         restaurantPreview = findViewById(R.id.restaurant_preview);
         ratingBar = findViewById(R.id.ratingBar);
         submitButton = findViewById(R.id.submitButton);
         ratingInput = findViewById(R.id.rating_text);
         opencameraButton = findViewById(R.id.openCamera);
         recyclerView = findViewById(R.id.recyclerView);
+    }
 
-        takepicturelauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Bundle extras = result.getData().getExtras();
-                        Bitmap imageBitmap = (Bitmap) extras.get("data");
-                        if (imageBitmap != null) {
-                            editPreviewImage(imageBitmap);
-                        } else {
-                            Toast.makeText(this, "Erreur lors de la capture de la photo", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
+    public void initIntentElements(){
+        String ratingComment = getIntent().getStringExtra("ratingComment");
+        float ratingBarValue = getIntent().getFloatExtra("ratingBarValue", 0.0f);
+        capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
 
         if(ratingComment != null){
             ratingInput.getEditText().setText(ratingComment);
@@ -108,9 +84,32 @@ public class RatingRestaurantActivity extends AppCompatActivity {
             capturedImages.add(editedImage);
             initThumbnailList();
         }
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rating_restaurant);
+
+        initUIElements();
+        initIntentElements();
 
         opencameraButton.setOnClickListener(view -> checkCameraPermission());
         submitButton.setOnClickListener(view -> onSubmitReview());
+
+        takepicturelauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Bundle extras = result.getData().getExtras();
+                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+                        if (imageBitmap != null) {
+                            editPreviewImage(imageBitmap);
+                        } else {
+                            Toast.makeText(this, "Erreur lors de la capture de la photo", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
     }
 
     protected void initThumbnailList(){
@@ -203,13 +202,6 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         }
     }
 
-    private void updateRestaurantPreview() {
-        if(!capturedImages.isEmpty()){
-            Bitmap lastImage = capturedImages.get(capturedImages.size() - 1);
-            restaurantPreview.setImageBitmap(lastImage);
-        }
-    }
-
     private void editPreviewImage(Bitmap image){
 
         float ratingScore = ratingBar.getRating();
@@ -227,6 +219,3 @@ public class RatingRestaurantActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
-//TODO
-// 3 - Sur l'endroit du placement de l'image, bouton pour entrer dans l'appareil photo, prender photo + preview
