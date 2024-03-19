@@ -115,13 +115,13 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     }
     public void onReviewButtonClick() {
         Intent restaurantReviewActivity = new Intent(_context, RestaurantReviewActivity.class);
-        restaurantReviewActivity.putExtra("RESTAURANT_ID", _restaurant.id);
+        restaurantReviewActivity.putExtra("restaurantId", _restaurant.id);
         restaurantReviewActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(restaurantReviewActivity);
     }
     public void onBookButtonClick() {
         Intent reservationActivity = new Intent(_context, ReservationActivity.class);
-        reservationActivity.putExtra("RESTAURANT_ID", _restaurant.id);
+        reservationActivity.putExtra("restaurantId", _restaurant.id);
         reservationActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(reservationActivity);
     }

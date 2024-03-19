@@ -193,16 +193,18 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         finish();
     }
     protected void onSubmitButtonClick(){
-        float ratingScore = ratingBar.getRating();
-        String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
+        final float ratingScore = ratingBar.getRating();
+        final String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
+
 
         if (ratingScore > 0 && !TextUtils.isEmpty(ratingInput.getEditText().getText().toString().trim())) {
-
             ratingInput.setActivated(false);
 
             Intent intent = new Intent(RestaurantReviewActivity.this, ConfirmReviewActivity.class);
             intent.putExtra("ratingBar", ratingScore);
             intent.putExtra("ratingText", ratingText);
+            intent.putExtra("restaurantId", getIntent().getIntExtra("restaurantId", 0));
+
             if(!capturedImages.isEmpty()) {
                 intent.putParcelableArrayListExtra("capturedImages", capturedImages);
             }
