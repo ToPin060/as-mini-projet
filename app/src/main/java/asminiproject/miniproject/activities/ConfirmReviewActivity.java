@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import asminiproject.miniproject.R;
 
-public class ConfirmRatingActivity extends AppCompatActivity {
+public class ConfirmReviewActivity extends AppCompatActivity {
 
     private Button _sendButton;
     private Button _returnButton;
@@ -66,7 +66,7 @@ public class ConfirmRatingActivity extends AppCompatActivity {
     protected void onConfirmClick(){
         // TODO : Mettre ici l'envoie des informations de la review sur la BD
 
-        Intent intent = new Intent(ConfirmRatingActivity.this, MapActivity.class);
+        Intent intent = new Intent(ConfirmReviewActivity.this, MapActivity.class);
         startActivity(intent);
 
         // Remove the previous history stack

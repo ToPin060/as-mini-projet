@@ -15,9 +15,9 @@
     <Button
         android:id="@+id/button_validate"
         style="@style/Widget.Material3.Button.ElevatedButton"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:text="@string/envoyer"
+        android:text="Confirmer"
         android:textColor="@color/white"
         app:backgroundTint="@color/main_color"
         tools:layout_editor_absoluteX="280dp"
@@ -79,10 +79,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="409dp"
-        android:layout_height="214dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_retake"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editableImage"
@@ -93,5 +93,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radio_button_1"
+        app:layout_constraintBottom_toTopOf="@+id/button_retake"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        >
+
+        <RadioButton
+            android:id="@+id/radio_button_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text= "😎"
+            app:buttonTint="@color/main_color"
+            />
+
+        <RadioButton
+            android:id="@+id/radio_button_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="😬"
+            app:buttonTint="@color/main_color"
+            />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

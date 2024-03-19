@@ -1,21 +1,38 @@
 package asminiproject.miniproject.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,14 +54,20 @@ import asminiproject.miniproject.thumbnails.ThumbnailsManager;
 
 
 public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCallback {
+
+
     static {
         System.loadLibrary("NativeImageProcessor");
     }
 
     Bitmap initImage;
     Bitmap toEditImage;
+    Bitmap mutable;
     Activity activity;
     ArrayList<Bitmap> capturedImages;
+    private int currentStickerIndex = 0;
+    private int[] stickerResources = {R.drawable.emoji_sun_glasses, R.drawable.emoji_grimacing};
+
 
     ImageView imageView;
     Button cancelButton;
@@ -52,11 +75,14 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     Button validateButton;
     LinearLayout linearLayout;
     RecyclerView recyclerView;
+    RadioGroup radioGroup;
+    RadioButton radioButton1, radioButton2;
 
     private ActivityResultLauncher<Intent> takepicturelauncher;
     private final ByteArrayOutputStream bStream = new ByteArrayOutputStream();
     private float ratingBarValue;
     private CharSequence ratingTextValue;
+    private Canvas canvas;
 
     protected void initUIElements(){
         imageView = findViewById(R.id.editableImage);
@@ -65,6 +91,10 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         validateButton = findViewById(R.id.button_validate);
         linearLayout = findViewById(R.id.linearLayout);
         recyclerView = findViewById(R.id.recyclerView);
+        radioGroup = findViewById(R.id.radioGroup);
+        radioButton1 = findViewById(R.id.radio_button_1);
+        radioButton2 = findViewById(R.id.radio_button_2);
+
     }
 
     protected void initIntentElements(){
@@ -74,7 +104,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
 
         initImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        toEditImage = initImage;
+        toEditImage = initImage.copy(Bitmap.Config.ARGB_8888, true);
     }
 
     protected void initThumbnailList(){
@@ -96,9 +126,12 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         Bitmap mutable = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Bitmap output = filter.processFilter(mutable);
 
-        imageView.setImageBitmap(output);
         toEditImage = output;
+        setImageView(toEditImage);
+        canvas.setBitmap(toEditImage);
     }
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,8 +142,8 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         initIntentElements();
         initThumbnailList();
 
-
         setImageView(toEditImage);
+        canvas = new Canvas(toEditImage);
 
         retakeButton.setOnClickListener(v -> retakeAction());
         cancelButton.setOnClickListener(v -> cancelAction());
@@ -133,13 +166,46 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
                 }
         );
 
-    }
-    protected void cancelAction() {
-        Intent intent = new Intent(EditPhotoActivity.this, RestaurantReviewActivity.class);
+        imageView.setOnTouchListener(new View.OnTouchListener() {
 
-        intent.putExtra("ratingBarValue", ratingBarValue);
-        intent.putExtra("ratingComment", ratingTextValue);
-        startActivity(intent);
+            
+            float x,y;
+            final float[] touchPoint = {x, y};
+
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchPoint[0] = event.getX();
+                        touchPoint[1] = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Matrix matrix = imageView.getImageMatrix();
+                        matrix.invert(matrix);
+                        matrix.mapPoints(touchPoint);
+                        drawSticker(touchPoint[0], touchPoint[1], currentStickerIndex, canvas);
+                        matrix.invert(matrix);
+                        imageView.invalidate();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if(radioButton1.isChecked()){
+                currentStickerIndex = 0;
+            }
+            else if(radioButton2.isChecked()){
+                currentStickerIndex = 1;
+            }
+        });
+
+    }
+
+    protected void cancelAction() {
+        finish();
     }
 
     protected void retakeAction() {
@@ -203,6 +269,21 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
 
     @Override
     public void onThumbnailClick(Filter filter) {
-        setImageViewFilter(initImage, filter);
+        setImageViewFilter(toEditImage, filter);
+    }
+
+    private void drawSticker(float x, float y, int stickerIndex, Canvas canvas) {
+        Drawable drawable = ContextCompat.getDrawable(this, stickerResources[stickerIndex]);
+        if (drawable != null) {
+
+            drawable.setBounds((int) x - 15, (int) y - 15,((int) x + 15),((int) y + 15));
+
+            drawable.draw(canvas);
+
+            imageView.invalidate(); // Rafraîchir l'image pour afficher le sticker
+
+        } else {
+            Toast.makeText(this, "Failed to load sticker", Toast.LENGTH_SHORT).show();
+        }
     }
 }

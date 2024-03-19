@@ -22,7 +22,6 @@
         <activity
             android:name=".activities.MapActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +30,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RestaurantProfileActivity" />
-        <activity android:name=".activities.ReservationActivity" />
-        <activity android:name=".activities.RestaurantReviewActivity" />
+        <activity android:name=".activities.ReservationActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".activities.RestaurantReviewActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".activities.EditPhotoActivity" />
-        <activity android:name=".activities.ConfirmRatingActivity" />
+        <activity android:name=".activities.ConfirmReviewActivity" />
 
         <meta-data
             android:name="org.osmdroid.tileprovider.tilesource.ITileSource"
