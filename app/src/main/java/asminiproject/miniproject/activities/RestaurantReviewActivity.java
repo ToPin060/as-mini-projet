@@ -40,6 +40,7 @@ import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
 
 public class RestaurantReviewActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final int STORAGE_PERMISSION_REQUEST_CODE = 100;
     private Activity activity;
 
     private ImageView restaurantPreview; //ImageView a modifié par un preview de Restaurant
@@ -151,12 +152,12 @@ public class RestaurantReviewActivity extends AppCompatActivity {
     }
 
     private void dispatchTakePictureIntent() {
-        if (capturedImages.size() < 3) {
+        if (capturedImages.size() < 2) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             takepicturelauncher.launch(takePictureIntent);
         }
         else {
-            Toast.makeText(this, "Vous ne pouvez prendre qu'au maximum 3 photos",
+            Toast.makeText(this, "Vous ne pouvez prendre qu'au maximum 2 photos",
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -171,7 +172,14 @@ public class RestaurantReviewActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             } else {
                 // La permission a été refusée, vous pouvez informer l'utilisateur ou prendre une autre action
-                Log.d("Photo", "Permission refusé");
+                Toast.makeText(this, "Accès à l'appareil photo refusé", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == STORAGE_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent();
+            } else {
+                Log.d("Permissions","Refused");
             }
         }
     }
@@ -188,7 +196,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         float ratingScore = ratingBar.getRating();
         String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
-        if (ratingScore > 0 || !TextUtils.isEmpty(ratingInput.getEditText().getText().toString().trim())) {
+        if (ratingScore > 0 && !TextUtils.isEmpty(ratingInput.getEditText().getText().toString().trim())) {
 
             ratingInput.setActivated(false);
 
@@ -206,11 +214,13 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         }
     }
     protected void onCameraButtonClick() {
-        // Camera allowed ?
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+
+        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+
         } else {
-            // La permission est déjà accordée, vous pouvez ouvrir l'appareil photo
             dispatchTakePictureIntent();
         }
     }
