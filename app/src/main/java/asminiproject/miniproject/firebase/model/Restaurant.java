@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import asminiproject.miniproject.dc.Address;
+
 public class Restaurant {
     private String name;
     private Address address;

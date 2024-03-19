@@ -1,4 +1,4 @@
-package asminiproject.miniproject.firebase.model;
+package asminiproject.miniproject.dc;
 
 public class Address {
     private float lon;

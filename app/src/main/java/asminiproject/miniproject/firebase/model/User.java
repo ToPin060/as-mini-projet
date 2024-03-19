@@ -2,6 +2,8 @@ package asminiproject.miniproject.firebase.model;
 
 import androidx.annotation.NonNull;
 
+import asminiproject.miniproject.dc.Address;
+
 public class User {
     private String pseudo;
     private String name ;

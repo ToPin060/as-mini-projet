@@ -1,4 +1,4 @@
-package asminiproject.miniproject.firebase.services;
+package asminiproject.miniproject.services;
 
 import android.util.Log;
 
@@ -17,7 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import asminiproject.miniproject.firebase.model.Address;
+import asminiproject.miniproject.dc.Address;
 
 public class AddressService {
 

@@ -14,9 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 import asminiproject.miniproject.R;
-import asminiproject.miniproject.firebase.services.SimpleCallback;
-import asminiproject.miniproject.firebase.model.Address;
-import asminiproject.miniproject.firebase.services.AddressService;
+import asminiproject.miniproject.services.RestaurantService;
+import asminiproject.miniproject.services.RestaurantsService;
+import asminiproject.miniproject.services.SimpleCallback;
+import asminiproject.miniproject.dc.Address;
+import asminiproject.miniproject.services.AddressService;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 data.forEach(address -> Log.d(TAG, address.toString()));
             }
         });
+
+        Log.d(TAG, RestaurantsService.getInstance().getRestaurants().toString());
 
         //Log.d(TAG, allAddresses.toString());
     }

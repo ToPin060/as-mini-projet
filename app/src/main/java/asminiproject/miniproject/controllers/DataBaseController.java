@@ -1,25 +1,46 @@
 package asminiproject.miniproject.controllers;
 
+import android.util.Log;
 import android.util.Pair;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.dc.Review;
 import asminiproject.miniproject.dc.Schedule;
 import asminiproject.miniproject.dc.TimeSlot;
+import asminiproject.miniproject.services.RestaurantsService;
 
 public class DataBaseController {
+
+    private FirebaseFirestore database = FirebaseFirestore.getInstance();
     private static DataBaseController _instance;
     private DataBaseController() {
         _instance = this;
     }
 
+    private static Boolean isReviewInvalid(Review review) {
+        return review.getReview().isEmpty()
+                || review.getRestaurant() == null;
+    }
+
     public List<Restaurant> getRestaurants() {
-        // TODO: Make a DB query
+        List<Restaurant> allRestaurants = new ArrayList<>();
+        RestaurantsService.getInstance().getAllRestaurants(database, allRestaurants::addAll);
 
         // Convert as Restaurant from DC
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
@@ -50,7 +71,9 @@ public class DataBaseController {
             restaurants.add(restaurant);
         }
 
-        return restaurants;
+        return Stream.of(restaurants, allRestaurants)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     public boolean addReview(Review review) {
@@ -59,6 +82,27 @@ public class DataBaseController {
         // Insertion status
         return true;
     }
+
+    public void addReviewV2(Review review) {
+        if (database == null || review == null || isReviewInvalid(review))
+            throw new IllegalArgumentException("Database or review is null.");
+
+        CollectionReference collectionReferenceReview = database.collection("Review");
+
+        collectionReferenceReview.add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("ReviewService", "Successfully added review to db: \n" + review.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("ReviewService", "An error occurred while adding the review. \n"
+                        + e.getMessage() + "\n" + e);
+            }
+        });
+    }
+
     public static DataBaseController getInstance() {
         if (DataBaseController._instance == null) {
             new DataBaseController();
