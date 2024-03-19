@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -187,18 +188,20 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         float ratingScore = ratingBar.getRating();
         String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
-        if (ratingScore > 0) {
+        if (ratingScore > 0 || !TextUtils.isEmpty(ratingInput.getEditText().getText().toString().trim())) {
 
             ratingInput.setActivated(false);
 
-            Intent intent = new Intent(RestaurantReviewActivity.this, ConfirmRatingActivity.class);
+            Intent intent = new Intent(RestaurantReviewActivity.this, ConfirmReviewActivity.class);
             intent.putExtra("ratingBar", ratingScore);
             intent.putExtra("ratingText", ratingText);
-            intent.putParcelableArrayListExtra("capturedImages", capturedImages);
+            if(!capturedImages.isEmpty()) {
+                intent.putParcelableArrayListExtra("capturedImages", capturedImages);
+            }
             startActivity(intent);
 
         } else {
-            Toast.makeText(this, "Erreur, la note ne peut pas être à 0",
+            Toast.makeText(this, "Vous devez mettre un commentaire ET une note",
                     Toast.LENGTH_SHORT).show();
         }
     }
