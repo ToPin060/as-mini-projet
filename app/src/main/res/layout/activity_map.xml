@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/component_top_app_bar_container"
+        layout="@layout/component_top_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
