@@ -37,7 +37,7 @@ public class RestaurantMarker extends Marker {
         if (!hitTest(event, mapView)) return false;
 
         Intent restaurantDescriptionIntent = new Intent(_context, RestaurantProfileActivity.class);
-        restaurantDescriptionIntent.putExtra("RESTAURANT_ID", _restaurant.id);
+        restaurantDescriptionIntent.putExtra("restaurantId", _restaurant.id);
         restaurantDescriptionIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         _context.startActivity(restaurantDescriptionIntent);

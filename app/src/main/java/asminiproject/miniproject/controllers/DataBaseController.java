@@ -4,12 +4,11 @@ import android.util.Pair;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.sql.Array;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 import asminiproject.miniproject.dc.Restaurant;
+import asminiproject.miniproject.dc.Review;
 import asminiproject.miniproject.dc.Schedule;
 import asminiproject.miniproject.dc.TimeSlot;
 
@@ -54,7 +53,13 @@ public class DataBaseController {
         return restaurants;
     }
 
-    public static DataBaseController getDataBaseController() {
+    public boolean addReview(Review review) {
+        // TODO: Database insertion
+
+        // Insertion status
+        return true;
+    }
+    public static DataBaseController getInstance() {
         if (DataBaseController._instance == null) {
             new DataBaseController();
         }
