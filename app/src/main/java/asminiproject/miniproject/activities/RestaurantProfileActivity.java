@@ -34,8 +34,8 @@ public class RestaurantProfileActivity extends AppCompatActivity {
 
     private TextView _nameView, _overallRatingView, _ratingNumberView, _addressView, _phoneView;
     private RatingBar _ratingBarView;
-    private Button _backButtonView, _bookButton;
-    private FloatingActionButton _reviewButton;
+    private Button _backButtonView, _bookButton, _reviewButton;
+
     private ViewGroup _scheduleInclude;
 
     @Override
@@ -72,6 +72,7 @@ public class RestaurantProfileActivity extends AppCompatActivity {
         _overallRatingView.setText(String.format("%s", _restaurant.overallRating));
         _ratingNumberView.setText(String.format("%s avis", _restaurant.ratingsNumber));
         _ratingBarView.setRating(_restaurant.overallRating);
+        _ratingBarView.setIsIndicator(true);
         _addressView.setText(_restaurant.address);
         _phoneView.setText(_restaurant.phone);
 

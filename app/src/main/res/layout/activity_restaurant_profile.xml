@@ -15,127 +15,164 @@
         android:id="@+id/name_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_margin="10dp"
         android:text="Name"
         android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/relativeInfo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_app_bar_container" />
+        app:layout_constraintTop_toBottomOf="@+id/top_app_bar_container"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/overall_rating_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="4,5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_view" />
-
-    <TextView
-        android:id="@+id/rating_number_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:text="1500 avis"
-        app:layout_constraintEnd_toStartOf="@+id/rating_bar_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/overall_rating_view" />
-
-    <RatingBar
-        android:id="@+id/rating_bar_view"
-        android:layout_width="238dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:numStars="5"
-        app:layout_constraintStart_toEndOf="@+id/rating_number_view"
-        app:layout_constraintTop_toBottomOf="@+id/name_view" />
-
-    <TextView
-        android:id="@+id/address_hearder_view"
-        android:layout_width="61dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Adresse :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating_number_view" />
-
-    <TextView
-        android:id="@+id/address_view"
-        android:layout_width="298dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="7 Rue Aristide Berges, 31270 Cugnaux"
-        app:layout_constraintStart_toEndOf="@+id/address_hearder_view"
-        app:layout_constraintTop_toBottomOf="@+id/rating_bar_view" />
-
-    <TextView
-        android:id="@+id/phone_header_view"
-        android:layout_width="77dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Téléphone :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address_hearder_view" />
-
-    <TextView
-        android:id="@+id/phone_view"
-        android:layout_width="280dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:text="05 61 59 32 80"
-        app:layout_constraintStart_toEndOf="@+id/phone_header_view"
-        app:layout_constraintTop_toBottomOf="@+id/address_view" />
-
-    <include
-        android:id="@+id/schedule"
-        layout="@layout/component_schedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_header_view" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/rating_button_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:clickable="true"
-        android:contentDescription="Rate the restaurant"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:paddingStart="15dp"
+        app:backgroundTint="@color/main_color"
+        app:icon="@drawable/ic_ratereview"
+        app:iconPadding="-40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/sharp_add_black_36" />
+        app:layout_constraintEnd_toStartOf="@id/book_button_view"
+        app:layout_constraintStart_toEndOf="@+id/back_button_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
 
     <Button
         android:id="@+id/back_button_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="10dp"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
         android:text="@string/back_button_text"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/main_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
 
     <Button
         android:id="@+id/book_button_view"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="48dp"
         android:text="@string/book_button_text"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/main_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
+
+    <RelativeLayout
+        android:id="@+id/relativeSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeInfo"
+        app:layout_constraintVertical_bias="0.0">
+
+        <include
+            android:id="@+id/schedule"
+            layout="@layout/component_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/relativeSchedule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_view"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <TextView
+            android:id="@+id/phone_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="05 61 59 32 80"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/phone_header_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/phone_header_view"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Téléphone :"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/phone_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <RatingBar
+            android:id="@+id/rating_bar_view"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toEndOf="@id/rating_number_view"
+            app:layout_constraintTop_toBottomOf="@id/phone_view"
+            />
+
+        <TextView
+            android:id="@+id/rating_number_view"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toBottomOf="@id/phone_header_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="1500 avis" />
+
+        <TextView
+            android:id="@+id/overall_rating_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/rating_bar_view"
+            app:layout_constraintTop_toBottomOf="@id/phone_view"
+            android:text="4,5" />
+
+        <TextView
+            android:id="@+id/address_hearder_view"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Adresse :"
+            app:layout_constraintTop_toBottomOf="@id/rating_number_view"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/address_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="7 Rue Aristide Berges, 31270 Cugnaux"
+            app:layout_constraintTop_toBottomOf="@id/rating_number_view"
+            app:layout_constraintStart_toEndOf="@id/address_hearder_view"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

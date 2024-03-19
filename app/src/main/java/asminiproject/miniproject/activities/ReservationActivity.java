@@ -157,6 +157,7 @@ public class ReservationActivity extends AppCompatActivity {
         });
 
         sendButton.setOnClickListener(v -> onSendClick());
+        returnButton.setOnClickListener(v -> onReturnButton());
 
     }
 
@@ -177,6 +178,10 @@ public class ReservationActivity extends AppCompatActivity {
         additionnalInfos = inputAdditionnal.getEditText().getText().toString();
         date = inputDate.getEditText().getText().toString();
         time = inputTime.getEditText().getText().toString();
+    }
+
+    private void onReturnButton() {
+        finish();
     }
 
     private void onSendClick() {
