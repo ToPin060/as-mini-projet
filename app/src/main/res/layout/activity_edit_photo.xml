@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="14dp">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/component_top_app_bar" />
+
+    <Button
+        android:id="@+id/button_validate"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Confirmer"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/main_color"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="663dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        />
+
+    <ImageView
+        android:id="@+id/editableImage"
+        android:layout_width="407dp"
+        android:layout_height="365dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/button_cancel"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="Retour"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/main_color"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="663dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        />
+
+    <Button
+        android:id="@+id/button_retake"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:paddingStart="15dp"
+        app:backgroundTint="@color/main_color"
+        app:icon="@drawable/ic_retake_photo"
+        app:iconPadding="-40dp"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="663dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_validate"
+        app:layout_constraintStart_toEndOf="@+id/button_cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editableImage"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radio_button_1"
+        app:layout_constraintBottom_toTopOf="@+id/button_retake"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        >
+
+        <RadioButton
+            android:id="@+id/radio_button_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text= "😎"
+            app:buttonTint="@color/main_color"
+            />
+
+        <RadioButton
+            android:id="@+id/radio_button_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="😬"
+            app:buttonTint="@color/main_color"
+            />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

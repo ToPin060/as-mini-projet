@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Mini Project</string>
+    <string name="app_name">Miam Miam App</string>
+    <string name="envoyer">Envoyer</string>
+    <string name="valider">Valider</string>
+    <string name="annuler">Annuler</string>
+    <string name="noir_et_blanc">Noir et Blanc</string>
+    <string name="todo">TODO</string>
+    <string name="book_button_text">Réserver</string>
+    <string name="back_button_text">Retour</string>
+    <string name="confirm_review_title_text">Un aperçu de votre avis</string>
 </resources>

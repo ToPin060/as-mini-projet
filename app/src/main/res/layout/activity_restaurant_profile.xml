@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/top_app_bar_container"
+        layout="@layout/component_top_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/name_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Name"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_app_bar_container" />
+
+    <TextView
+        android:id="@+id/overall_rating_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="4,5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_view" />
+
+    <TextView
+        android:id="@+id/rating_number_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:text="1500 avis"
+        app:layout_constraintEnd_toStartOf="@+id/rating_bar_view"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/overall_rating_view" />
+
+    <RatingBar
+        android:id="@+id/rating_bar_view"
+        android:layout_width="238dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:numStars="5"
+        app:layout_constraintStart_toEndOf="@+id/rating_number_view"
+        app:layout_constraintTop_toBottomOf="@+id/name_view" />
+
+    <TextView
+        android:id="@+id/address_hearder_view"
+        android:layout_width="61dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Adresse :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rating_number_view" />
+
+    <TextView
+        android:id="@+id/address_view"
+        android:layout_width="298dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="7 Rue Aristide Berges, 31270 Cugnaux"
+        app:layout_constraintStart_toEndOf="@+id/address_hearder_view"
+        app:layout_constraintTop_toBottomOf="@+id/rating_bar_view" />
+
+    <TextView
+        android:id="@+id/phone_header_view"
+        android:layout_width="77dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Téléphone :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_hearder_view" />
+
+    <TextView
+        android:id="@+id/phone_view"
+        android:layout_width="280dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:text="05 61 59 32 80"
+        app:layout_constraintStart_toEndOf="@+id/phone_header_view"
+        app:layout_constraintTop_toBottomOf="@+id/address_view" />
+
+    <include
+        android:id="@+id/schedule"
+        layout="@layout/component_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_header_view" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/rating_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:clickable="true"
+        android:contentDescription="Rate the restaurant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/sharp_add_black_36" />
+
+    <Button
+        android:id="@+id/back_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/back_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/book_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/book_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
