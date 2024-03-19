@@ -7,11 +7,14 @@ import asminiproject.miniproject.dc.Restaurant;
 
 public class RestaurantsService {
     private static RestaurantsService _instance;
+
+    private DataBaseController _databaseController;
+
     private List<Restaurant> _restaurants;
 
     private RestaurantsService() {
         _instance = this;
-        _restaurants = DataBaseController.getDataBaseController().getRestaurants();
+        _databaseController = DataBaseController.getInstance();
     }
 
     public static RestaurantsService getInstance() {
@@ -22,7 +25,10 @@ public class RestaurantsService {
         return _instance;
     }
 
-    public List<Restaurant> getRestaurants() { return _restaurants; }
+    public List<Restaurant> getRestaurants() {
+        _restaurants = DataBaseController.getInstance().getRestaurants();
+        return _restaurants;
+    }
     public Restaurant getRestaurantById(int id) {
         return _restaurants.get(id);
     }

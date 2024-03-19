@@ -27,7 +27,7 @@ public class Restaurant {
         schedule = schedule_;
         reviews = new ArrayList<Review>();
 
-        computeAttributes();
+        compute();
     }
     public Restaurant(int id_, String name_, String address_, GeoPoint localization_, String phone_, Schedule schedule_, List<Review> ratings_) {
         id = id_;
@@ -38,10 +38,13 @@ public class Restaurant {
         localization = localization_;
         reviews = ratings_;
 
-        computeAttributes();
+        compute();
     }
 
-    private void computeAttributes() {
+    /**
+     *  Compute all computed attributes
+     */
+    private void compute() {
         ratingsNumber = reviews.size();
 
         float sum = 0;

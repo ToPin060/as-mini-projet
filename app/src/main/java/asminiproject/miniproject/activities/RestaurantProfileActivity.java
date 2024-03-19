@@ -30,7 +30,7 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     private Restaurant _restaurant;
 
     private Context _context;
-    private RestaurantsService restaurantsService;
+    private RestaurantsService _restaurantsService;
 
     private TextView _nameView, _overallRatingView, _ratingNumberView, _addressView, _phoneView;
     private RatingBar _ratingBarView;
@@ -49,9 +49,10 @@ public class RestaurantProfileActivity extends AppCompatActivity {
 
     private void initializeActivity() {
         _context = getApplicationContext();
-        restaurantsService = RestaurantsService.getInstance();
-        _restaurant = restaurantsService
-                .getRestaurantById(getIntent().getIntExtra("RESTAURANT_ID", 11));
+        _restaurantsService = RestaurantsService.getInstance();
+
+        _restaurant = _restaurantsService
+                .getRestaurantById(getIntent().getIntExtra("restaurantId", 0));
 
         setContentView(R.layout.activity_restaurant_profile);
 
