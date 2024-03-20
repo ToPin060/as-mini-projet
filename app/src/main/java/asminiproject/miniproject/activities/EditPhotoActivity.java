@@ -153,7 +153,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
                 float lux = event.values[0];
                 Log.d("DEBUG", "onSensorChanged: "+lux);
 
-                Bitmap mutable = toEditImage.copy(Bitmap.Config.ARGB_8888, true);
+                Bitmap mutable = initImage.copy(Bitmap.Config.ARGB_8888, true);
                 Filter filter = new Filter();
                 filter.addSubFilter(new ContrastSubFilter(lux));
                 Bitmap output = filter.processFilter(mutable);
