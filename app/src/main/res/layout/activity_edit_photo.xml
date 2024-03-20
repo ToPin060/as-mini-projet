@@ -82,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +92,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 
     <RadioGroup
@@ -121,5 +124,18 @@
             app:buttonTint="@color/main_color"
             />
     </RadioGroup>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/switch_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Filtre\n avec\n capteur"
+        app:layout_constraintBottom_toTopOf="@+id/button_validate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        android:layout_marginBottom="15dp"
+        app:trackTint="@color/main_color"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
