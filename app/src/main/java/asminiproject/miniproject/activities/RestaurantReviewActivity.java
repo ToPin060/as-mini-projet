@@ -63,8 +63,8 @@ public class RestaurantReviewActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_restaurant_review);
 
-        initIntentElements();
         initUIElements();
+        initIntentElements();
         setupButtonsEvent();
 
         takepicturelauncher = registerForActivityResult(
@@ -95,11 +95,11 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         _submitButton = findViewById(R.id.submit_button);
         _cameraButton = findViewById(R.id.camera_button);
         _review_title_restaurant_name = findViewById(R.id.restaurant_name);
-        _review_title_restaurant_name.setText(RestaurantService.getInstance().getRestaurantById(_restaurantId).getName());
     }
 
     public void initIntentElements(){
         _restaurantId = getIntent().getStringExtra("restaurantId");
+        _review_title_restaurant_name.setText(RestaurantService.getInstance().getRestaurantById(_restaurantId).getName());
         String ratingComment = getIntent().getStringExtra("ratingComment");
         float ratingBarValue = getIntent().getFloatExtra("ratingBarValue", 0.0f);
         capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
