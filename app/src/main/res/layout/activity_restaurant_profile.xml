@@ -17,6 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Name"
+        android:fontFamily="cursive"
+        android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@id/relativeInfo"
         app:layout_constraintEnd_toEndOf="parent"
