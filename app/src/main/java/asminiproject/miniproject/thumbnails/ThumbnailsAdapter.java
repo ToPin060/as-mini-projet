@@ -43,7 +43,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         final ThumbnailItem thumbnailItem = dataSet.get(holder.getAdapterPosition());
         thumbnailsViewHolder.thumbnail.setImageBitmap(thumbnailItem.image);
-        thumbnailsViewHolder.thumbnail.setScaleType(ImageView.ScaleType.FIT_START);
+        thumbnailsViewHolder.thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         thumbnailsViewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
