@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -14,9 +15,13 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import asminiproject.miniproject.R;
+import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.map.Map;
+import asminiproject.miniproject.services.RestaurantService;
 
 public class MapActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -28,20 +33,23 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initializeActivity();
+    }
+
+    private void initializeActivity() {
         _context = getApplicationContext();
 
         requestPermissionsIfNecessary(
                 new String[] {
-                    // Not used actually
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    // WRITE_EXTERNAL_STORAGE is required in order to show the map
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                });
+                        // Not used actually
+                        // Manifest.permission.ACCESS_FINE_LOCATION,
+                        // WRITE_EXTERNAL_STORAGE is required in order to show the map
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE});
 
         Configuration.getInstance().load(_context, PreferenceManager.getDefaultSharedPreferences(_context));
         setContentView(R.layout.activity_map);
 
-        initializeMap();
+        map = new Map(_context, (MapView) findViewById(R.id.map));
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {
@@ -60,11 +68,6 @@ public class MapActivity extends AppCompatActivity {
                 REQUEST_PERMISSIONS_REQUEST_CODE
             );
         }
-    }
-
-    private void initializeMap() {
-        map = new Map(_context, (MapView) findViewById(R.id.map));
-
     }
 
     @Override

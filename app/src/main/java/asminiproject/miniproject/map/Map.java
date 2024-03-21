@@ -9,29 +9,27 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 
 import java.util.List;
 
 import asminiproject.miniproject.R;
 import asminiproject.miniproject.dc.Restaurant;
-import asminiproject.miniproject.services.RestaurantsService;
+import asminiproject.miniproject.services.RestaurantService;
 
 public class Map {
     private final Context _context;
     private final MapView _mapView;
 
-    private final RestaurantsService _restaurantsService;
+    private final RestaurantService _restaurantService;
 
-    private IGeoPoint _myLocation = new GeoPoint(43.6047, 1.4442);
+    private IGeoPoint _myLocation = new GeoPoint(43.55496852645395, 1.3665988403463214);
     private double _mapZoom = 18.0;
 
 
     public Map(Context context, MapView mapView) {
         _context = context;
         _mapView = mapView;
-        _restaurantsService = RestaurantsService.getInstance();
+        _restaurantService = RestaurantService.getInstance();
 
         setupMap();
     }
@@ -60,12 +58,12 @@ public class Map {
     }
 
     private void generateRestaurantMarkers() {
-        List<Restaurant> restaurants = _restaurantsService.getRestaurants();
-
-        for (int i = 0; i < restaurants.size(); i++) {
-            Restaurant restaurant = restaurants.get(i);
-            _mapView.getOverlays().add(new RestaurantMarker(_mapView, _context, restaurant));
-        }
+        _restaurantService.getAllRestaurants(data -> {
+            for (int i = 0; i < data.size(); i++) {
+                Restaurant restaurant = data.get(i);
+                _mapView.getOverlays().add(new RestaurantMarker(_mapView, _context, restaurant));
+            }
+        });
     }
 
 

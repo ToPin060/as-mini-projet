@@ -41,19 +41,20 @@ import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
 public class RestaurantReviewActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 100;
-    private Activity activity;
+    private final ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+    private Bitmap editedImage;
+    List<ThumbnailItem> thumbs;
+    private String _restaurantId;
+
+    private Activity _activity;
+    private ActivityResultLauncher<Intent> takepicturelauncher;
 
     private ImageView restaurantPreview; //ImageView a modifié par un preview de Restaurant
     private RatingBar ratingBar;
     private Button _backButton, _submitButton, _cameraButton;
     private TextInputLayout ratingInput;
-    private ActivityResultLauncher<Intent> takepicturelauncher;
     private ArrayList<Bitmap> capturedImages;
     private RecyclerView recyclerView;
-
-    private final ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-    private Bitmap editedImage;
-    List<ThumbnailItem> thumbs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,9 @@ public class RestaurantReviewActivity extends AppCompatActivity {
                 }
         );
 
+        Bundle bundle = getIntent().getExtras();
+
+        Log.e("", bundle.toString());
     }
 
     public void initUIElements(){
@@ -93,6 +97,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
     }
 
     public void initIntentElements(){
+        _restaurantId = getIntent().getStringExtra("restaurantId");
         String ratingComment = getIntent().getStringExtra("ratingComment");
         float ratingBarValue = getIntent().getFloatExtra("ratingBarValue", 0.0f);
         capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");
@@ -143,7 +148,7 @@ public class RestaurantReviewActivity extends AppCompatActivity {
                     thumbs.add(t);
                 }
 
-                ThumbnailsAdapter adapter = new ThumbnailsAdapter(thumbs, (ThumbnailCallback) activity);
+                ThumbnailsAdapter adapter = new ThumbnailsAdapter(thumbs, (ThumbnailCallback) _activity);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -200,10 +205,10 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         if (ratingScore > 0 && !TextUtils.isEmpty(ratingInput.getEditText().getText().toString().trim())) {
             ratingInput.setActivated(false);
 
-            Intent intent = new Intent(RestaurantReviewActivity.this, ConfirmReviewActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ConfirmReviewActivity.class);
             intent.putExtra("ratingBar", ratingScore);
             intent.putExtra("ratingText", ratingText);
-            intent.putExtra("restaurantId", getIntent().getIntExtra("restaurantId", 0));
+            intent.putExtra("restaurantId", _restaurantId);
 
             if(!capturedImages.isEmpty()) {
                 intent.putParcelableArrayListExtra("capturedImages", capturedImages);
@@ -232,13 +237,14 @@ public class RestaurantReviewActivity extends AppCompatActivity {
         float ratingScore = ratingBar.getRating();
         String ratingText = Objects.requireNonNull(ratingInput.getEditText().getText()).toString();
 
-        Intent intent = new Intent(RestaurantReviewActivity.this, EditPhotoActivity.class);
+        Intent intent = new Intent(getApplicationContext(), EditPhotoActivity.class);
         image.compress(Bitmap.CompressFormat.PNG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
 
         intent.putExtra("image", byteArray);
         intent.putExtra("ratingBar", ratingScore);
         intent.putExtra("ratingText", ratingText);
+        intent.putExtra("restaurantId", _restaurantId);
         intent.putParcelableArrayListExtra("capturedImages", capturedImages);
 
         startActivity(intent);

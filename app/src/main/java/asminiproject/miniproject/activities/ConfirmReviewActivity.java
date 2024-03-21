@@ -3,6 +3,7 @@ package asminiproject.miniproject.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,19 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import asminiproject.miniproject.R;
-import asminiproject.miniproject.controllers.DataBaseController;
 import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.dc.Review;
-import asminiproject.miniproject.services.RestaurantsService;
-import asminiproject.miniproject.services.ReviewsService;
+import asminiproject.miniproject.services.RestaurantService;
+import asminiproject.miniproject.services.ReviewService;
 
 public class ConfirmReviewActivity extends AppCompatActivity {
     private Restaurant _restaurant;
     private float _rating;
     private String _review;
     private List<Bitmap> _pictures;
-
-    private ReviewsService _reviewsService;
 
     private ViewGroup _reviewCardGroup;
     private ImageView _pictureView;
@@ -39,16 +37,17 @@ public class ConfirmReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle bundle = getIntent().getExtras();
+        Log.e("", bundle.toString());
+
         initializeActivity();
         setupViewsContent();
         setupButtonsEvent();
     }
 
     public void initializeActivity(){
-        _reviewsService = ReviewsService.getInstance();
-
-        final int restaurantId = getIntent().getIntExtra("restaurantId", 11);
-        _restaurant = RestaurantsService.getInstance().getRestaurantById(restaurantId);
+        final String restaurantId = getIntent().getStringExtra("restaurantId");
+        _restaurant = RestaurantService.getInstance().getRestaurantById(restaurantId);
         _rating = getIntent().getFloatExtra("ratingBar", 0.0f);
         _review = getIntent().getStringExtra("ratingText");
         _pictures = getIntent().getParcelableArrayListExtra("capturedImages");
@@ -83,7 +82,7 @@ public class ConfirmReviewActivity extends AppCompatActivity {
         finish();
     }
     protected void onConfirmClick(){
-        final boolean isAddedOnDb = _reviewsService.addReview(new Review(_restaurant, _rating, _review, _pictures));
+        final boolean isAddedOnDb = ReviewService.addReview(new Review(_restaurant, _rating, _review, _pictures));
 
         if (!isAddedOnDb) return;
 
