@@ -3,6 +3,7 @@ package asminiproject.miniproject.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,8 +27,6 @@ public class ConfirmReviewActivity extends AppCompatActivity {
     private String _review;
     private List<Bitmap> _pictures;
 
-    private ReviewService _reviewsService;
-
     private ViewGroup _reviewCardGroup;
     private ImageView _pictureView;
     private RatingBar _ratingBarView;
@@ -38,14 +37,15 @@ public class ConfirmReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle bundle = getIntent().getExtras();
+        Log.e("", bundle.toString());
+
         initializeActivity();
         setupViewsContent();
         setupButtonsEvent();
     }
 
     public void initializeActivity(){
-        _reviewsService = ReviewService.getInstance();
-
         final String restaurantId = getIntent().getStringExtra("restaurantId");
         _restaurant = RestaurantService.getInstance().getRestaurantById(restaurantId);
         _rating = getIntent().getFloatExtra("ratingBar", 0.0f);
@@ -82,7 +82,7 @@ public class ConfirmReviewActivity extends AppCompatActivity {
         finish();
     }
     protected void onConfirmClick(){
-        final boolean isAddedOnDb = _reviewsService.addReview(new Review(_restaurant, _rating, _review, _pictures));
+        final boolean isAddedOnDb = ReviewService.addReview(new Review(_restaurant, _rating, _review, _pictures));
 
         if (!isAddedOnDb) return;
 

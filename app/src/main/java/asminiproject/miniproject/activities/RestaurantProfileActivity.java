@@ -3,6 +3,7 @@ package asminiproject.miniproject.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -130,10 +131,6 @@ public class RestaurantProfileActivity extends AppCompatActivity {
             }
         }
     }
-    private void hideTimeslots(boolean enable, ViewGroup timeslot1, ViewGroup timeslot2) {
-        timeslot1.setVisibility(View.INVISIBLE);
-        timeslot2.setVisibility(View.INVISIBLE);
-    }
 
     private void setupButtonsEvent() {
         _backButtonView.setOnClickListener(view -> onBackButtonClick());
@@ -145,10 +142,10 @@ public class RestaurantProfileActivity extends AppCompatActivity {
         finish();
     }
     public void onReviewButtonClick() {
-        Intent restaurantReviewActivity = new Intent(_context, RestaurantReviewActivity.class);
-        restaurantReviewActivity.putExtra("restaurantId", _restaurant.documentId);
-        restaurantReviewActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        _context.startActivity(restaurantReviewActivity);
+        Intent intent = new Intent(this, RestaurantReviewActivity.class);
+        intent.putExtra("restaurantId", _restaurant.documentId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        _context.startActivity(intent);
     }
     public void onBookButtonClick() {
         Intent reservationActivity = new Intent(_context, ReservationActivity.class);
@@ -160,5 +157,10 @@ public class RestaurantProfileActivity extends AppCompatActivity {
     public String computeStringFromInt(int value) {
         if (value == 0)  return "00";
         else return String.format("%s", value);
+    }
+
+    private void hideTimeslots(boolean enable, ViewGroup timeslot1, ViewGroup timeslot2) {
+        timeslot1.setVisibility(View.INVISIBLE);
+        timeslot2.setVisibility(View.INVISIBLE);
     }
 }

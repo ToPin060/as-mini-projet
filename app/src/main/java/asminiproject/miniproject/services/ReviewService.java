@@ -73,7 +73,7 @@ public class ReviewService {
         return _instance;
     }
 
-    public boolean addReview(Review review) {
+    public static boolean addReview(Review review) {
         return true;
     }
 }

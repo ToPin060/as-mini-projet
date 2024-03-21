@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import asminiproject.miniproject.R;
+import asminiproject.miniproject.dc.Restaurant;
 import asminiproject.miniproject.thumbnails.ThumbnailCallback;
 import asminiproject.miniproject.thumbnails.ThumbnailItem;
 import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
@@ -62,6 +63,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     ArrayList<Bitmap> capturedImages;
     private int currentStickerIndex = 0;
     private final int[] stickerResources = {R.drawable.emoji_sun_glasses, R.drawable.emoji_grimacing};
+    private String _restaurantId;
 
     ImageView imageView;
     Button cancelButton, retakeButton, validateButton;
@@ -161,7 +163,6 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
                 toEditImage = output;
                 setImageView(toEditImage);
                 canvas.setBitmap(toEditImage);
-
             }
 
             @Override
@@ -182,7 +183,6 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
                 canvas.setBitmap(toEditImage);
             }
         });
-
     }
 
     protected void initUIElements(){
@@ -199,6 +199,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     }
 
     protected void initIntentElements(){
+        _restaurantId = getIntent().getStringExtra("restaurantId");
         ratingBarValue = getIntent().getFloatExtra("ratingBar", 0.0f);
         ratingTextValue = getIntent().getStringExtra("ratingText");
         byte[] byteArray = getIntent().getByteArrayExtra("image");
@@ -269,10 +270,11 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
         intent.putExtra("image", byteArray);
         intent.putExtra("ratingBarValue", ratingBarValue);
         intent.putExtra("ratingComment", ratingTextValue);
+        intent.putExtra("restaurantId", _restaurantId);
         intent.putParcelableArrayListExtra("capturedImages", capturedImages);
 
         startActivity(intent);
-
+        finish();
     }
 
     private void bindDatatoAdapter(){
