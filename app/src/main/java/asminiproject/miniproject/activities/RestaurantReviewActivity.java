@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 import asminiproject.miniproject.R;
+import asminiproject.miniproject.services.RestaurantService;
 import asminiproject.miniproject.thumbnails.ThumbnailCallback;
 import asminiproject.miniproject.thumbnails.ThumbnailItem;
 import asminiproject.miniproject.thumbnails.ThumbnailsAdapter;
@@ -48,13 +50,12 @@ public class RestaurantReviewActivity extends AppCompatActivity {
 
     private Activity _activity;
     private ActivityResultLauncher<Intent> takepicturelauncher;
-
-    private ImageView restaurantPreview; //ImageView a modifié par un preview de Restaurant
     private RatingBar ratingBar;
     private Button _backButton, _submitButton, _cameraButton;
     private TextInputLayout ratingInput;
     private ArrayList<Bitmap> capturedImages;
     private RecyclerView recyclerView;
+    private TextView _review_title_restaurant_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +88,18 @@ public class RestaurantReviewActivity extends AppCompatActivity {
     }
 
     public void initUIElements(){
-        restaurantPreview = findViewById(R.id.restaurant_preview);
         ratingBar = findViewById(R.id.ratingBar);
         ratingInput = findViewById(R.id.rating_text);
         recyclerView = findViewById(R.id.recyclerView);
         _backButton = findViewById(R.id.back_button);
         _submitButton = findViewById(R.id.submit_button);
         _cameraButton = findViewById(R.id.camera_button);
+        _review_title_restaurant_name = findViewById(R.id.restaurant_name);
     }
 
     public void initIntentElements(){
         _restaurantId = getIntent().getStringExtra("restaurantId");
+        _review_title_restaurant_name.setText(RestaurantService.getInstance().getRestaurantById(_restaurantId).getName());
         String ratingComment = getIntent().getStringExtra("ratingComment");
         float ratingBarValue = getIntent().getFloatExtra("ratingBarValue", 0.0f);
         capturedImages = getIntent().getParcelableArrayListExtra("capturedImages");

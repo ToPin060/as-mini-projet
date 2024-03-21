@@ -263,7 +263,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
     }
 
     protected void validateAction() {
-        Intent intent = new Intent(EditPhotoActivity.this, RestaurantReviewActivity.class);
+        Intent intent = new Intent(this, RestaurantReviewActivity.class);
         toEditImage.compress(Bitmap.CompressFormat.PNG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
 
@@ -319,7 +319,7 @@ public class EditPhotoActivity extends AppCompatActivity implements ThumbnailCal
 
     @Override
     public void onThumbnailClick(Filter filter) {
-        setImageViewFilter(toEditImage, filter);
+        setImageViewFilter(initImage, filter);
     }
 
 

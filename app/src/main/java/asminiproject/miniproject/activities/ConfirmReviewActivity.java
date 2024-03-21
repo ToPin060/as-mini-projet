@@ -2,6 +2,7 @@ package asminiproject.miniproject.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ public class ConfirmReviewActivity extends AppCompatActivity {
     private List<Bitmap> _pictures;
 
     private ViewGroup _reviewCardGroup;
-    private ImageView _pictureView;
+    private ImageView _pictureView, _pictureView2;
     private RatingBar _ratingBarView;
     private TextView _restaurantNameView, _commentView;
     private Button _returnButton, _sendButton;
@@ -59,6 +60,7 @@ public class ConfirmReviewActivity extends AppCompatActivity {
         _restaurantNameView = _reviewCardGroup.findViewById(R.id.restaurant_name);
         _commentView = _reviewCardGroup.findViewById(R.id.review_comment);
         _pictureView = _reviewCardGroup.findViewById(R.id.picture);
+        _pictureView2 = _reviewCardGroup.findViewById(R.id.picture2);
         _sendButton = findViewById(R.id.send_button);
         _returnButton = findViewById(R.id.back_button);
     }
@@ -69,8 +71,19 @@ public class ConfirmReviewActivity extends AppCompatActivity {
         _restaurantNameView.setText(_restaurant.name);
         _commentView.setText(_review);
 
-        if (_pictures == null) _pictureView.setVisibility(View.INVISIBLE);
-        else _pictureView.setImageBitmap(_pictures.get(0));
+        if (_pictures != null) setImageCard(_pictures);
+    }
+
+    public void setImageCard(List<Bitmap> pics){
+
+        if (pics.size() == 1 ){
+            _pictureView.setImageBitmap(pics.get(0));
+        }
+        else {
+            _pictureView2.setImageBitmap(pics.get(0));
+            _pictureView.setImageBitmap(pics.get(1));
+        }
+
     }
 
     public void setupButtonsEvent() {
