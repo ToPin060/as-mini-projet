@@ -1,5 +1,7 @@
 package asminiproject.miniproject.thumbnails;
 
+import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,15 +46,10 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final ThumbnailItem thumbnailItem = dataSet.get(holder.getAdapterPosition());
         thumbnailsViewHolder.thumbnail.setImageBitmap(thumbnailItem.image);
         thumbnailsViewHolder.thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+        
         thumbnailsViewHolder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (lastPosition != holder.getAdapterPosition()) {
-                    thumbnailCallback.onThumbnailClick(thumbnailItem.filter);
-                    lastPosition = holder.getAdapterPosition();
-                }
-            }
+            public void onClick(View v) { }
         });
     }
 
